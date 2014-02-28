@@ -1,0 +1,6 @@
+
+class syslog-ng::params (
+
+) {
+
+}
