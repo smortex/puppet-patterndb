@@ -1,8 +1,6 @@
 
-class syslog-ng::pdb::params(
+class syslogng::pdb::params inherits syslogng::params {
 
-) {
-
-    $pdb_dir = '
+    $pdb_dir = "$base_dir/patterndb.d"
 
 }

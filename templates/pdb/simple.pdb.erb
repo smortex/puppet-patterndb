@@ -1,0 +1,34 @@
+<patterndb version='4' pub_date='2014-03-03'>
+
+<ruleset name='<%= @name -%>' id='<%= @ruleset_id -%>'>
+    <patterns>
+<% @program_names.each do |prg_name| -%>
+        <pattern><%= prg_name -%></pattern>
+<% end -%>
+    </patterns>
+    <rules>
+        <rule provider="<%= @provider -%>" id='<%= @rule_id -%>'>
+<% @patterns.each do |pattern| -%>
+            <patterns>
+                <pattern><%= pattern -%></pattern>
+<% end -%>
+            </patterns>
+            <tags>
+<% @tags.each do |tag| -%>
+                <tag><%= tag -%></tag>
+<% end -%>
+            </tags>
+            <examples>
+<% @examples.each do |example| -%>
+                <example>
+                    <test_message program="<%= example[0] -%>"><%= example[1] -%></test_message>
+                </example>
+<% end -%>
+            </examples>
+        </rule>
+    </rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark -->
