@@ -39,7 +39,7 @@ define syslogng::pdb::simple::ruleset (
 
 	ensure_resource ( 'exec', 'deploy-patterndb',
 		{ 
-			command => "/bin/cp ${::syslogng::temp_dir}/patterndb.xml /var/lib/syslog-ng/",
+			command => "/bin/cp ${::syslogng::temp_dir}/patterndb.xml ${::syslogng::base_dir}/var/lib/syslog-ng/",
 			#onlyif  => "/usr/bin/pdbtool --validate test ${::syslogng::temp_dir}/patterndb.xml",
 			onlyif  => "/usr/bin/pdbtool test ${::syslogng::temp_dir}/patterndb.xml",
 			logoutput => true,
