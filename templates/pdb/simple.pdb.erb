@@ -8,8 +8,8 @@
     </patterns>
     <rules>
         <rule provider="<%= @provider -%>" id='<%= @rule_id -%>'>
-<% @patterns.each do |pattern| -%>
             <patterns>
+<% @patterns.each do |pattern| -%>
                 <pattern><%= pattern -%></pattern>
 <% end -%>
             </patterns>
@@ -21,7 +21,7 @@
             <examples>
 <% @examples.each do |example| -%>
                 <example>
-                    <test_message program="<%= example[0] -%>"><%= example[1] -%></test_message>
+                    <test_message program="<%= example['program_name'] -%>"><%= example['test_message'] -%></test_message>
                 </example>
 <% end -%>
             </examples>

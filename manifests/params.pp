@@ -1,6 +1,5 @@
 
 class syslogng::params {
-
-    $base_dir = '/etc/syslog-ng'
-
+	$base_dir = '/etc/syslog-ng'
+	$temp_dir = '/tmp'
 }
