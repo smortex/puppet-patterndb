@@ -1,31 +1,37 @@
 <patterndb version='4' pub_date='2014-03-03'>
 
-<ruleset name='<%= @name -%>' id='<%= @ruleset_id -%>'>
+<ruleset name='<%= @name -%>' id='<%= @id -%>'>
     <patterns>
-<% @program_names.each do |prg_name| -%>
+<% @patterns.each do |prg_name| -%>
         <pattern><%= prg_name -%></pattern>
 <% end -%>
     </patterns>
     <rules>
-        <rule provider="<%= @provider -%>" id='<%= @rule_id -%>'>
+<% @rules.each do |rule| -%>
+        <rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>'>
             <patterns>
-<% @patterns.each do |pattern| -%>
+<% rule['patterns'].each do |pattern| -%>
                 <pattern><%= pattern -%></pattern>
 <% end -%>
             </patterns>
+<% if rule['tags'] -%>
             <tags>
-<% @tags.each do |tag| -%>
+<% rule['tags'].each do |tag| -%>
                 <tag><%= tag -%></tag>
 <% end -%>
             </tags>
+<% end -%>
+<% if rule['examples'] -%>
             <examples>
-<% @examples.each do |example| -%>
+<% rule['examples'].each do |example| -%>
                 <example>
-                    <test_message program="<%= example['program_name'] -%>"><%= example['test_message'] -%></test_message>
+                    <test_message program="<%= example['program'] -%>"><%= example['test_message'] -%></test_message>
                 </example>
 <% end -%>
             </examples>
+<% end -%>
         </rule>
+<% end -%>
     </rules>
 </ruleset>
 
