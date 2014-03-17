@@ -34,8 +34,6 @@ define syslogng::pdb::simple::ruleset (
 
 	file {$pdb_file:
 		ensure      => present,
-		#owner       => 'root',
-		#group       => 'root',
 		mode        => 0644,
 		content     => template('syslogng/pdb/simple.pdb.erb'),
 		notify      => Exec['update-patterndb']

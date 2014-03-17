@@ -1,5 +1,12 @@
-#!/bin/sh
+#!/bin/sh -eu
 
 [ ! -d "./tests" ] && { echo "No tests to run"; exit 0; }
 
-find ./tests -type f -name '*.pp' -exec puppet apply --noop --verbose {} \;
+for manifest in $(find ./tests -type f -name '*.pp'); do
+	echo '*'
+	echo '* Testing manifest `'$manifest'`'
+	echo '*'
+ 	puppet apply --noop $manifest
+	echo '*'
+	echo '* OK *'
+done

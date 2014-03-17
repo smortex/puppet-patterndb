@@ -23,8 +23,6 @@ define syslogng::pdb::raw::ruleset (
 		file { "${syslogng::pdb::pdb_dir}/${name}":
 			ensure      => $ensure,
 			recurse => $recurse,
-			#owner       => 'root',
-			#group       => 'root',
 			mode        => 0644,
 			source     => $source,
 			sourceselect => $sourceselect,
@@ -33,8 +31,6 @@ define syslogng::pdb::raw::ruleset (
 	} else {
 		file { "${syslogng::pdb::pdb_dir}/${name}.pdb":
 			ensure      => $ensure,
-			#owner       => 'root',
-			#group       => 'root',
 			mode        => 0644,
 			source     => $source,
 			notify      => Exec['update-patterndb']
