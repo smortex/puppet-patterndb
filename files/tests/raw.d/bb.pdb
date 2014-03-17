@@ -1,0 +1,25 @@
+<patterndb version='4' pub_date='2014-03-03'>
+	<ruleset name='bb' id='bb'>
+		<patterns>
+			<pattern>bb</pattern>
+		</patterns>
+		<rules>
+			<rule provider='puppet@ccfawe' id='bb'>
+				<patterns>
+					<pattern>bb match @ESTRING:this: @dude</pattern>
+				</patterns>
+				<examples>
+					<example>
+						<test_message program="bb">bb match me dude</test_message>
+						<test_values>
+							<test_value name='this'>me</test_value>
+						</test_values>
+					</example>
+				</examples>
+			</rule>
+		</rules>
+	</ruleset>
+</patterndb>
+
+<!-- vim:ft=xml:background=dark:noexpandtab
+     -->
