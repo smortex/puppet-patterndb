@@ -6,5 +6,12 @@ class syslogng (
 
     require stdlib
     ensure_resource('package', 'syslog-ng', { 'ensure' => 'present' })
+    
+    file { $base_dir:
+      ensure => directory
+    }
+    file { $temp_dir:
+      ensure => directory
+    }
 
 }
