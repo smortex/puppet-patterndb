@@ -4,6 +4,7 @@ define syslogng::pdb::raw::ruleset (
 	$ensure = "present",
 	$recurse = true,
 	$sourceselect = "all",
+	$ignore = [ ".svn", ".git" ],
 )
 {
 	validate_string($source)
@@ -26,6 +27,7 @@ define syslogng::pdb::raw::ruleset (
 			mode        => 0644,
 			source     => $source,
 			sourceselect => $sourceselect,
+			ignore => $ignore,
 			notify      => Exec['syslogng::pdb::merge']
 		}
 	} else {
