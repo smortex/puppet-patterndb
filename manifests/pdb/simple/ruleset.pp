@@ -28,14 +28,14 @@ define syslogng::pdb::simple::ruleset (
 	# validate rules
 	syslogng_pdb_simple_rule ($rules)
 	
-	if ! defined(Class['Syslogng::Pdb::Deploy']) {
-		include syslogng::pdb::deploy
+	if ! defined(Class['Syslogng::Pdb::Update']) {
+		include syslogng::pdb::update
 	}
 
 	file {$pdb_file:
 		ensure      => present,
 		mode        => 0644,
 		content     => template('syslogng/pdb/simple.pdb.erb'),
-		notify      => Exec['update-patterndb']
+		notify      => Exec['syslogng::pdb::merge']
 	}
 }

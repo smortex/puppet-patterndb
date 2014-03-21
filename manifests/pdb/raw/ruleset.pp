@@ -15,8 +15,8 @@ define syslogng::pdb::raw::ruleset (
 		include syslogng::pdb
 	}
 
-	if ! defined(Class['Syslogng::Pdb::Deploy']) {
-		include syslogng::pdb::deploy
+	if ! defined(Class['Syslogng::Pdb::Update']) {
+		include syslogng::pdb::update
 	}
 
 	if $ensure == 'directory' {
@@ -26,14 +26,14 @@ define syslogng::pdb::raw::ruleset (
 			mode        => 0644,
 			source     => $source,
 			sourceselect => $sourceselect,
-			notify      => Exec['update-patterndb']
+			notify      => Exec['syslogng::pdb::merge']
 		}
 	} else {
 		file { "${syslogng::pdb::pdb_dir}/${name}.pdb":
 			ensure      => $ensure,
 			mode        => 0644,
 			source     => $source,
-			notify      => Exec['update-patterndb']
+			notify      => Exec['syslogng::pdb::merge']
 		}
 	}
 }

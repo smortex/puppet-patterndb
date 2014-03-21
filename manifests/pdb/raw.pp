@@ -8,8 +8,8 @@ define syslogng::pdb::raw (
 		include syslogng::pdb
 	}
 
-	if ! defined(Class['Syslogng::Pdb::Deploy']) {
-		include syslogng::pdb::deploy
+	if ! defined(Class['Syslogng::Pdb::Update']) {
+		include syslogng::pdb::update
 	}
 
 	$pdbfile = "${syslogng::pdb::pdb_dir}/${name}.pdb"
