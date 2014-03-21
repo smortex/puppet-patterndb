@@ -6,7 +6,7 @@ for manifest in $(find ./tests -type f -name '*.pp'); do
 	echo '*'
 	echo '* Testing manifest `'$manifest'`'
 	echo '*'
- 	puppet apply --noop $manifest
+ 	puppet apply $manifest
 	echo '*'
 	echo '* OK *'
 done
