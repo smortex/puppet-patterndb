@@ -3,7 +3,7 @@ define syslogng::pdb::raw::ruleset (
 	$source,
 	$ensure = "present",
 	$recurse = true,
-	$sourceselect = "all"
+	$sourceselect = "all",
 )
 {
 	validate_string($source)
