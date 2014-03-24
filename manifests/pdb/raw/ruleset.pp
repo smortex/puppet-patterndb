@@ -3,6 +3,7 @@ define syslogng::pdb::raw::ruleset (
 	$source,
 	$ensure = "present",
 	$recurse = true,
+	$purge = true,
 	$sourceselect = "all",
 	$ignore = [ ".svn", ".git" ],
 )
@@ -25,6 +26,7 @@ define syslogng::pdb::raw::ruleset (
 			ensure      => $ensure,
 			recurse => $recurse,
 			mode        => 0644,
+			purge => $purge,
 			source     => $source,
 			sourceselect => $sourceselect,
 			ignore => $ignore,
