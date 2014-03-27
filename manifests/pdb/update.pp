@@ -15,6 +15,13 @@ class syslogng::pdb::update (
 		$tmp = join($syslogng_modules," --module=")
 		$modules = "--module=$tmp"
 	}
+
+	file { "${::syslogng::base_dir}/var/lib/syslog-ng/patterndb.xml":
+			ensure => "present"
+	}
+
+	~>
+
 	exec { 'syslogng::pdb::merge':
 			command => "pdbtool merge -r --glob \\*.pdb -D $::syslogng::pdb::pdb_dir -p ${::syslogng::temp_dir}/patterndb.xml",
 			path => ["/bin", "/usr/bin" ],
