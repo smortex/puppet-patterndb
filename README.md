@@ -108,10 +108,15 @@ Merge and deploy `pdb` files
 Controls the validation process of the merged patterndb file, e.g. `syslogng_modules => [ "tfgeoip" ]` will yield the `Exec` resource `pdbtool test [...] --module tfgeoip`.
 This is necessary in case you are using non autoloading modules in patterndb, otherwise your validation will fail and your patterndb will fail to deploy itself.
 
+* test_before_deploy => true / false
+
+Controls wether merged pdb file is validated before being deployed. By default this is set to `true`.
+
 #### Example
 
 		class { syslogng::pdb::update:
-			syslogng_modules => [ "tfgeoip", "getent" ]
+			syslogng_modules => [ "tfgeoip", "getent" ],
+			test_before_deploy => true
 		}
 
 ##Limitations
