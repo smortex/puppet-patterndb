@@ -7,7 +7,7 @@
 		</patterns>
 		<rules>
 <% @rules.each do |rule| -%>
-			<rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>'>
+			<rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>' class='<%= rule['ruleclass'] || "system" -%>'>
 				<patterns>
 <% rule['patterns'].each do |pattern| -%>
 					<pattern><%= pattern -%></pattern>

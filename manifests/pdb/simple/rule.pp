@@ -2,7 +2,7 @@
 define syslogng::pdb::simple::rule (
 	$id,
 	$provider = "puppet",
-	$ruleclass,
+	$ruleclass = "system",
 # currently ignored
 	$context_id = undef,
 	$context_timeout = undef,

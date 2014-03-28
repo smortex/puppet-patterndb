@@ -50,7 +50,6 @@ syslogng::pdb::simple::ruleset { 'plop':
 			values => {
 				'plop' => 'ploup'
 			},
-			ruleclass => 'plop'
 		}
 	]
 }
