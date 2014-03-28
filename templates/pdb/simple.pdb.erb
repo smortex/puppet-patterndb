@@ -15,7 +15,7 @@
 				</patterns>
 <% if rule['values'] -%>
 				<values>
-<% rule['values'].each do |k,v| -%>
+<% Hash[rule['values']].sort.each do |k,v| -%>
 					<value name='<%= k %>'><%= v %></value>
 <% end -%>
 				</values>
@@ -34,7 +34,7 @@
 						<test_message program="<%= example['program'] -%>"><%= example['test_message'] -%></test_message>
 <% if example['test_values'] -%>
 						<test_values>
-<% example['test_values'].each do |k,v| -%>
+<% Hash[example['test_values']].sort.each do |k,v| -%>
 							<test_value name='<%=k%>'><%=v%></test_value>
 <% end -%>
 						</test_values>

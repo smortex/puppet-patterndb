@@ -1,5 +1,5 @@
 name 'ccin2p3-syslogng'
-version '0.1000'
+version '0.1001'
 source 'git://github.com/ccin2p3/puppet-syslogng.git'
 author 'ccin2p3'
 license 'CeCILL 2.1'
