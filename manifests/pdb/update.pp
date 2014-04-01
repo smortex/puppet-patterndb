@@ -32,14 +32,14 @@ class syslogng::pdb::update (
 	exec {'syslogng::pdb::test':
 			#command  => "/usr/bin/pdbtool --validate test ${::syslogng::temp_dir}/patterndb.xml $modules",
 			command  => "pdbtool test ${::syslogng::temp_dir}/patterndb.xml $modules",
-			path => [ "/bin", "/usr/bin" ],
+			path => $::path,
 			logoutput => true,
 			refreshonly => true,
 	}
 
 	exec {'syslogng::pdb::deploy':
 			command => "cp ${::syslogng::temp_dir}/patterndb.xml ${::syslogng::base_dir}/var/lib/syslog-ng/",
-			path => [ "/bin", "/usr/bin" ],
+			path => $::path,
 			logoutput => true,
 			refreshonly => true
 		}

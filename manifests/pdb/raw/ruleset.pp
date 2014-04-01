@@ -1,11 +1,11 @@
 #
 define syslogng::pdb::raw::ruleset (
 	$source,
-	$ensure = "present",
+	$ensure = 'present',
 	$recurse = true,
 	$purge = true,
-	$sourceselect = "all",
-	$ignore = [ ".svn", ".git" ],
+	$sourceselect = 'all',
+	$ignore = [ '.svn', '.git' ],
 )
 {
 	validate_string($source)
