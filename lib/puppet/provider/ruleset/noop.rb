@@ -1,5 +1,5 @@
 #
-Puppet::Type.type(:pdb_ruleset).provide(:noop) do
+Puppet::Type.type(:ruleset).provide(:noop) do
   desc "This provider does absolutely nothing"
   def create
   end

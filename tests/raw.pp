@@ -1,13 +1,13 @@
 #
-class { "syslogng":
-	base_dir => '/tmp/'
+class { 'patterndb':
+  base_dir => '/tmp/'
 }
 
-syslogng::pdb::raw::ruleset { 'raw':
-	source => 'puppet:///modules/syslogng/tests/raw.pdb'
+patterndb::raw::ruleset { 'raw':
+  source => 'puppet:///modules/patterndb/tests/raw.pdb'
 }
 
-syslogng::pdb::raw::ruleset { 'raw.d':
-	source => 'puppet:///modules/syslogng/tests/raw.d',
-	ensure => 'directory'
+patterndb::raw::ruleset { 'raw.d':
+  ensure => 'directory',
+  source => 'puppet:///modules/patterndb/tests/raw.d',
 }

@@ -1,23 +1,23 @@
 #
-class { "syslogng":
-	base_dir => '/tmp/'
+class { 'patterndb':
+  base_dir => '/tmp/'
 }
 
-class { "syslogng::pdb::update":
-	syslogng_modules => [ "basicfuncs" ]
+class { 'patterndb::update':
+  syslogng_modules => [ 'basicfuncs' ]
 }
 
-syslogng::pdb::simple::ruleset { 'someprogram':
-	id => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
-	patterns => ['dhclient', 'dhcpclient'],
-	pubdate => '2014-03-14',
-	rules => [
-		{
-			id => 'bd61010f-b339-4106-8ad3-4eb9764116b2',
-			provider => 'me',
-			patterns => [ 'DHCPACK from @IPv4::@' ],
-			ruleclass => 'system',
-		},
-	]
+patterndb::simple::ruleset { 'someprogram':
+  id => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
+  patterns => ['dhclient', 'dhcpclient'],
+  pubdate => '2014-03-14',
+  rules => [
+    {
+      id => 'bd61010f-b339-4106-8ad3-4eb9764116b2',
+      provider => 'me',
+      patterns => [ 'DHCPACK from @IPv4::@' ],
+      ruleclass => 'system',
+    },
+  ]
 }
 

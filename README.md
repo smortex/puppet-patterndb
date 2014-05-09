@@ -1,11 +1,11 @@
-# ccin2p3-syslogng
+# ccin2p3-patterndb
 
 ####Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description](#module-description)
 3. [Setup](#setup)
-    * [What syslogng affects](#what-syslogng-affects)
+    * [What patterndb affects](#what-patterndb-affects)
     * [Setup requirements](#setup-requirements)
 4. [Usage](#usage)
 5. [Reference](#reference)
@@ -28,13 +28,13 @@ The [syslog-ng documentation](http://www.balabit.com/sites/default/files/documen
 
 ##Setup
 
-###What syslogng affects
+###What patterndb affects
 
 Depending on the top-level configuration variable `$base_dir`, this module will manage and execute the following elements in order:
 
 0. Manage package `syslog-ng` if not already handled elsewhere (`stdlib/ensure_resource`)
 1. Manage `$base_dir/etc/syslog-ng/patterndb.d`
-2. Manage the contents of the above directory using [existing](#defined-type-syslogngpdbrawruleset) or [generated](#defined-type-syslogngpdbsimpleruleset) patterndb ruleset files
+2. Manage the contents of the above directory using [existing](#defined-type-patterndbrawruleset) or [generated](#defined-type-patterndbsimpleruleset) patterndb ruleset files
 3. Merge the contents of the latter using `pdbtool` into a temporary file `$temp_dir/syslog-ng/patterndb.xml`
 4. (OPTIONAL) Test the resulting patterndb
 5. Deploy the temporary file into `$base_dir/var/lib/syslog-ng/patterndb.xml`
@@ -49,37 +49,31 @@ This module requires `stdlib`
 
 Using defaults
 
-    class { "syslogng": }
+    class { "patterndb": }
 
 Overriding paths
 
-    class { "syslogng":
+    class { "patterndb":
       $base_dir => "/path/to/syslog-ng/prefix",
       $temp_dir => "/path/to/temp"
     }
 
 ##Reference
 
-### Class: syslogng
+### Class: patterndb
 
 Manages `Package['syslog-ng']` if not already included.
 Manages `File["$temp_dir"]` as a directory.
+Manages `File` resource `"$base_dir/etc/syslog-ng/patterndb.d"` recursively, and purges unknown files.
 
 #### Parameters
 
 * `$base_dir` Top level directory for resources
 * `$temp_dir` Temporary directory for various components
 
-### Class: syslogng::pdb
+###Class: patterndb::update
 
-Manages patterndb resources.
-Inherits from [base class](#class-syslogng).
-
-Handles `File` resource `"$base_dir/etc/syslog-ng/patterndb.d"` recursively, and purges unknown files.
-
-###Class: syslogng::pdb::update
-
-Handles merging and deploying of [provided](#defined-type-syslogngpdbrawruleset) and/or [generated](#defined-type-syslogngpdbsimpleruleset) `pdb` files.
+Handles merging and deploying of [provided](#defined-type-patterndbrawruleset) and/or [generated](#defined-type-patterndbsimpleruleset) `pdb` files.
 
 ####Optional Parameters
 
@@ -94,19 +88,19 @@ Controls wether merged pdb file is validated before being deployed. By default t
 Here's what happens under the hood (code is pretty self-explanatory):
 
 		if $test_before_deploy {
-			File['merged_and_deployed_pdb'] ~> Exec['syslogng::pdb::merge'] ~> Exec['syslogng::pdb::test'] ~> Exec['syslogng::pdb::deploy']
+			File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~> Exec['patterndb::test'] ~> Exec['patterndb::deploy']
 		} else {
-			File['merged_and_deployed_pdb'] ~> Exec['syslogng::pdb::merge'] ~>                                Exec['syslogng::pdb::deploy']
+			File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~>                                Exec['patterndb::deploy']
 		}
 
 #### Example
 
-		class { syslogng::pdb::update:
+		class { patterndb::update:
 			syslogng_modules => [ "tfgeoip", "tfgetent" ],
 			test_before_deploy => true
 		}
 
-### Defined Type: syslogng::pdb::raw::ruleset
+### Defined Type: patterndb::raw::ruleset
 
 Describes existing `pdb` resultsets. Handles the resource deployment of type `File`.
 
@@ -130,19 +124,19 @@ All parameters are passed along to the `File` resource, which will manage the `p
 
 ####Single file
     
-		syslogng::pdb::raw::ruleset { 'raw':
+		patterndb::raw::ruleset { 'raw':
 			source => 'puppet:///path/to/my/export/for/myraw.pdb'
 		}
 
 ####Directory
 
-		syslogng::pdb::raw::ruleset { 'raws':
+		patterndb::raw::ruleset { 'raws':
 			source => 'puppet:///path/to/my/exports/for/pdb',
 			ensure => 'directory',
 			purge  => true,
 		}
 
-### Defined Type: syslogng::pdb::simple::ruleset
+### Defined Type: patterndb::simple::ruleset
 
 Describes a full ruleset, *e.g.* a set of rules matching the same `PROGRAM` macro in syslog-ng. Handles the generation of `pdb` files from scratch.
 
@@ -151,7 +145,7 @@ Describes a full ruleset, *e.g.* a set of rules matching the same `PROGRAM` macr
 * `$id` A unique identifier for the ruleset. The use of [uuid](http://en.wikipedia.org/wiki/Universally_unique_identifier) is strongly recommended
 * `$patterns` An array of strings representing the pattern matching the name of the `PROGRAM` macro in syslog messages, *e.g.* `['sshd', 'login', 'lftpd']`
 * `$pubdate` The date the ruleset has been written in the format `YYYY-mm-dd`
-* `$rules` An array of hashes describing the [rules](#defined-type-syslogngpdbsimplerule)
+* `$rules` An array of hashes describing the [rules](#defined-type-patterndbsimplerule)
 
 ####Optional Parameters
 
@@ -163,7 +157,7 @@ Describes a full ruleset, *e.g.* a set of rules matching the same `PROGRAM` macr
 
 ####Minimal
 
-    syslogng::pdb::simple::ruleset { 'myruleset':
+    patterndb::simple::ruleset { 'myruleset':
 			id => '9586b525-826e-4c2d-b74f-381039cf470c',
 			patterns => [ 'sshd' ],
 			pubdate => '2014-03-24',
@@ -177,7 +171,7 @@ Describes a full ruleset, *e.g.* a set of rules matching the same `PROGRAM` macr
 
 ####Full
 
-		syslogng::pdb::simple::ruleset { 'pam_unix':
+		patterndb::simple::ruleset { 'pam_unix':
 			id => 'd254ec8b-be96-49cb-9424-16fcb1164157',
 			patterns => [ 'sshd', 'crond', 'imap', 'login', 'pam', 'su', 'sudo' ],
 			pubdate => '1985-10-26',
@@ -210,16 +204,16 @@ Describes a full ruleset, *e.g.* a set of rules matching the same `PROGRAM` macr
 			],
 		}
 
-### Defined Type: syslogng::pdb::simple::rule
+### Defined Type: patterndb::simple::rule
 
-Describes a rule in a [ruleset](#defined-type-syslogngpdbsimpleruleset).
+Describes a rule in a [ruleset](#defined-type-patterndbsimpleruleset).
 Currently used for validation only.
 
 ####Mandatory Parameters
 
 * `$id` A unique identifier for the rule. The use of [uuid](http://en.wikipedia.org/wiki/Universally_unique_identifier) is strongly recommended
 * `$patterns` An array of patterns describing a log message *e.g.* `['Failed @ESTRING:usracct.authmethod: @for invalid user @ESTRING:usracct.username: @from @ESTRING:usracct.device: @port @ESTRING:: @@ANYSTRING:usracct.service@']`
-* `$examples` An array of hashes containing [sample log messages](#defined-type-syslogngpdbsimpleexample) which should match `$patterns`
+* `$examples` An array of hashes containing [sample log messages](#defined-type-patterndbsimpleexample) which should match `$patterns`
 
 ####Optional Parameters
 
@@ -228,15 +222,15 @@ Currently used for validation only.
 * `$values` A hash of key-value pairs that are assigned to messages matching the rule. Defaults to `{}`
 * `$tags` A list of keywords or tags applied to messages matching the rule. Defaults to `[]`
 
-###Defined Type: syslogng::pdb::simple::example
+###Defined Type: patterndb::simple::example
 
-Defined type describing sample messages in a [rule](#defined-type-syslogngpdbsimplerule).
+Defined type describing sample messages in a [rule](#defined-type-patterndbsimplerule).
 Currently used for validation only.
 
 ####Mandatory Parameters
 
 * `$program` The `PROGRAM` pattern of the test message, *e.g.* `'sshd'`
-* `$test_message` A sample log message that should match the [rule](#defined-type-syslogngpdbsimplerule) *e.g.* `Failed password for invalid user deep_thought from 0.0.0.0 port -1 ssh42`
+* `$test_message` A sample log message that should match the [rule](#defined-type-patterndbsimplerule) *e.g.* `Failed password for invalid user deep_thought from 0.0.0.0 port -1 ssh42`
 
 ####Optional Parameters
 
@@ -255,5 +249,5 @@ To test this module simply run `tests/run.sh` from the root directory
 
 ### Contributing
 
-Send issues or PRs to http://github.com/ccin2p3/puppet-syslogng
+Send issues or PRs to http://github.com/ccin2p3/puppet-patterndb
 
