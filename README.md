@@ -245,7 +245,8 @@ Currently used for validation only.
  
 ### Testing
 
-To test this module simply run `tests/run.sh` from the root directory
+* Smoke tests: run `./smoke/test` from the root directory
+* For `puppet-rspec` tests use `rake spec` as usual
 
 ### Contributing
 

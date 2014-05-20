@@ -1,8 +1,8 @@
 #!/bin/sh -eu
 
-[ ! -d "./tests" ] && { echo "No tests to run"; exit 0; }
+[ ! -d "./smoke" ] && { echo "No tests to run"; exit 0; }
 
-for manifest in $(find ./tests -type f -name '*.pp'); do
+for manifest in $(find ./smoke -type f -name '*.pp'); do
 	echo '*'
 	echo '* Testing manifest `'$manifest'`'
 	echo '*'

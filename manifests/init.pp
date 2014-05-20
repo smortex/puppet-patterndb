@@ -1,11 +1,22 @@
 #
 class patterndb (
   $base_dir = $::patterndb::defaults::base_dir,
-  $temp_dir = $::patterndb::defaults::temp_dir
+  $temp_dir = $::patterndb::defaults::temp_dir,
+  $package_name = false
 ) inherits patterndb::defaults {
 
   require stdlib
-  ensure_resource('package', 'syslog-ng', { 'ensure' => 'present' })
+# package
+  if is_string($package_name) {
+    $real_package_name = $package_name
+  } else {
+    case $::osfamily {
+      'RedHat': { $real_package_name = 'syslog-ng' }
+      'Debian': { $real_package_name = 'syslog-ng' }
+      default: { fail("unsupported osfamily: ${::osfamily}") }
+    }
+  }
+  ensure_resource ( 'package', $real_package_name, { 'ensure' => 'installed' })
   ensure_resource ( 'file', $temp_dir, { ensure => directory } )
   ensure_resource ( 'file', "${base_dir}/etc", { ensure => 'directory' } )
   ensure_resource (
