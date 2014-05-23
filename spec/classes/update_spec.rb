@@ -1,38 +1,58 @@
 require 'spec_helper'
 
-oses_specs = @oses_specs
-
-describe 'patterndb', :type => 'class' do
-  oses_specs.each do |osname, specs|
-    context "#{osname} OS without package_name" do
-      let :package_name do
-        specs[:syslog_ng_package]
-      end
-      let :facts do {
-          :osfamily        => specs[:osfamily],
-          :operatingsystem => specs[:operatingsystem]
-      }
-      end
-      it {
-        should contain_package(package_name)
-      }
-    end
-  end
-  context "Unsupported OS without package_name" do
-    let :facts do
-      { :osfamily => 'UnsupportedOne' }
-    end
-    it {
-      expect {should raise_error(Puppet::Error)}
+describe 'patterndb::update', :type => 'class' do
+  let :facts do {
+    :osfamily => 'RedHat'
+  } end
+  context "Catchall" do
+    it { should contain_class('Patterndb') }
+    it { should contain_exec('patterndb::merge') }
+    it { should contain_file('merged_and_deployed_pdb').with(
+      'ensure' => 'present').that_notifies('Exec[patterndb::merge]')
     }
   end
-  context "Any OS with a package name" do
-    let :params do
-      { :package_name => 'othersyslogngpackagename' }
-    end
+  context "Default values (no parameters)" do
+    let :params do {
+      # noparams
+    } end
     it {
-      should contain_package('othersyslogngpackagename')
+      should contain_exec('patterndb::test').with(
+        'command' => /patterndb.xml $/m
+      )
     }
+  end
+  context "With syslog-ng module" do
+    let :params do {
+      :syslogng_modules => [ "foo","bar" ]
+    } end
+    it {
+      should contain_exec('patterndb::test').with(
+        'command' => /patterndb.xml --module=foo --module=bar$/m
+      )
+    }
+  end
+  context "With empty syslog-ng module list" do
+    let :params do {
+      :syslogng_modules => [ ]
+    } end
+    it {
+      should contain_exec('patterndb::test').with(
+        'command' => /patterndb.xml $/m
+      )
+    }
+  end
+  context "Without test_before_deploy" do
+    let :params do {
+      :test_before_deploy => false
+    } end
+    it { should contain_exec('patterndb::merge').that_notifies('Exec[patterndb::deploy]') }
+  end
+  context "With test_before_deploy" do
+    let :params do {
+      :test_before_deploy => true
+    } end
+    it { should contain_exec('patterndb::merge').that_notifies('Exec[patterndb::test]') }
+    it { should contain_exec('patterndb::test').that_notifies('Exec[patterndb::deploy]') }
   end
 end
 

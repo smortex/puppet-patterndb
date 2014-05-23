@@ -3,11 +3,9 @@ class patterndb::update (
   $syslogng_modules = [],
   $test_before_deploy = true,
 ) {
-
   if ! defined(Class['Patterndb']) {
     include patterndb
   }
-
   if ! defined(Exec['Patterndb::Merge']) {
     if empty($syslogng_modules) {
       $modules = ''
@@ -43,11 +41,15 @@ class patterndb::update (
         refreshonly => true
       }
   }
-
   if $test_before_deploy {
-    File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~> Exec['patterndb::test'] ~> Exec['patterndb::deploy']
-    } else {
-      File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~>                                Exec['patterndb::deploy']
-    }
-
+    File['merged_and_deployed_pdb'] ~>
+    Exec['patterndb::merge'] ~>
+    Exec['patterndb::test'] ~>
+    Exec['patterndb::deploy']
+  } else {
+    File['merged_and_deployed_pdb'] ~>
+    Exec['patterndb::merge'] ~>
+    # we won't 'pdbtool test' the merged file before deploying
+    Exec['patterndb::deploy']
+  }
 }
