@@ -7,9 +7,6 @@ describe 'patterndb::raw::ruleset' do
   let :title do
     'myrawruleset'
   end
-  let :default_params do {
-    :source => '/SOURCE'
-  } end
   let :pre_condition do
     'class { "patterndb": base_dir => "BASEDIR", }'
   end
@@ -27,6 +24,19 @@ describe 'patterndb::raw::ruleset' do
     end
     it {
      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myrawruleset.pdb')
+    }
+  end
+  context "Raw rulesets with directory" do
+    let :params do
+      {
+        :source => 'BLAH.D',
+        :ensure => 'directory'
+      }
+    end
+    it {
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myrawruleset').with(
+        :ensure => 'directory'
+      )
     }
   end
 end
