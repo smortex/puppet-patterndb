@@ -18,7 +18,9 @@ describe 'patterndb::simple::ruleset' do
   context "Simple ruleset without patterns" do
     let :params do
       default_params.merge(
-        {}
+        {
+          :rules => { }
+        }
       )
     end
     it { expect {should compile}.to raise_error(/Must pass patterns/m)}
