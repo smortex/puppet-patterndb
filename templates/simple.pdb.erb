@@ -1,4 +1,4 @@
-<patterndb version='4' pub_date='<%= pubdate %>'>
+<patterndb version='4' pub_date='<%= @pubdate %>'>
 	<ruleset name='<%= @name -%>' id='<%= @id -%>'>
 		<patterns>
 <% @patterns.each do |prg_name| -%>
@@ -7,7 +7,17 @@
 		</patterns>
 		<rules>
 <% @rules.each do |rule| -%>
-			<rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>' class='<%= rule['ruleclass'] || "system" -%>'>
+			<rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>'
+<% if rule['context_id'] -%>
+			      context-id='<%= rule['context_id'] -%>'
+<% end -%>
+<% if rule['context_scope'] -%>
+			      context-scope='<%= rule['context_scope'] -%>'
+<% end -%>
+<% if rule['context_timeout'] -%>
+			      context-timeout='<%= rule['context_timeout'] -%>'
+<% end -%>
+			      class='<%= rule['ruleclass'] || "system" -%>'>
 				<patterns>
 <% rule['patterns'].each do |pattern| -%>
 					<pattern><%= pattern -%></pattern>
@@ -26,6 +36,36 @@
 					<tag><%= tag -%></tag>
 <% end -%>
 				</tags>
+<% end -%>
+<% if rule['actions'] -%>
+				<actions>
+<% rule['actions'].each do |action| -%>
+					<action<% if action['trigger'] then -%> trigger='<%=action['trigger'] -%>'<% if action['rate'] then -%> rate='<%=action['rate'] -%>'<%end-%>
+<% if action['condition'] then -%> condition='<%=action['condition'] -%>'<% end -%>
+<% end -%>>
+<% message = action['message']
+if message -%>
+						<message<% if message['inherit_properties'] then %> inherit-properties='<%=message['inherit_properties'] -%>'<%end-%>>
+<% if message['tags'] -%>
+							<tags>
+<% message['tags'].each do |tag| -%>
+								<tag><%= tag %></tag>
+<% end -%>
+							</tags>
+<% end -%>
+<% values = Hash[message['values']].sort
+if values -%>
+							<values>
+<% values.each do |k,v| -%>
+								<value name='<%= k %>'><%= v %></value>
+<% end -%>
+							</values>
+<% end -%>
+						</message>
+<% end -%>
+					</action>
+<% end -%>
+				</actions>
 <% end -%>
 <% if rule['examples'] -%>
 				<examples>

@@ -4,10 +4,11 @@ define patterndb::simple::rule (
   $patterns,
   $provider = 'puppet',
   $ruleclass = 'system',
-# begin currently ignored
   $context_id = undef,
   $context_timeout = undef,
   $context_scope = undef,
+  $actions = [],
+# begin currently ignored
   $urls = [],
 # end currently ignored
   $examples = [],
@@ -24,9 +25,12 @@ define patterndb::simple::rule (
   validate_array($urls)
   validate_array($examples)
   validate_array($tags)
+  validate_array($actions)
   validate_hash($values)
 
 # validate sample messages
   patterndb_simple_example ($examples)
+# validate actions
+  patterndb_simple_action ( $actions, $id )
 }
 
