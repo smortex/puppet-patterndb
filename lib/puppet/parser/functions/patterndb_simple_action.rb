@@ -1,6 +1,6 @@
 module Puppet::Parser::Functions
-  id = 0
   newfunction(:patterndb_simple_action) do |args|
+    id = 0
     actions = args[0]
     rule_id = args[1]
     return if actions.size < 1

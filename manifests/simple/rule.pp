@@ -29,7 +29,7 @@ define patterndb::simple::rule (
   validate_hash($values)
 
 # validate sample messages
-  patterndb_simple_example ($examples)
+  patterndb_simple_example ( $examples, $id )
 # validate actions
   patterndb_simple_action ( $actions, $id )
 }
