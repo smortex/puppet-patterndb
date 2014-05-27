@@ -14,7 +14,7 @@ describe 'patterndb::raw::ruleset' do
     let :params do
       {}
     end
-    it { expect {should compile}.to raise_error(Puppet::Error, /Must pass source/m)}
+    it { expect {should compile}.to raise_error(/Must pass source/m)}
   end
   context "Raw ruleset with only source" do
     let :params do

@@ -21,7 +21,7 @@ describe 'patterndb::simple::ruleset' do
         {}
       )
     end
-    it { expect {should compile}.to raise_error(Puppet::Error, /Must pass patterns/m)}
+    it { expect {should compile}.to raise_error(/Must pass patterns/m)}
   end
   context "Simple ruleset without rules" do
     let :params do
@@ -31,7 +31,7 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(Puppet::Error, /Must pass rules/m)}
+    it { expect {should compile}.to raise_error(/Must pass rules/m)}
   end
   context "Simple ruleset with wrong type for patterns" do
     let :params do
@@ -42,7 +42,7 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(Puppet::Error, /is not an Array/m)}
+    it { expect {should compile}.to raise_error(/is not an Array/m)}
   end
   context "Simple ruleset with wrong type for rules" do
     let :params do
@@ -53,7 +53,7 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(Puppet::Error, /is not an Array/m)}
+    it { expect {should compile}.to raise_error(/is not an Array/m)}
   end
   context "Simple ruleset with empty rules and patterns" do
     let :params do
