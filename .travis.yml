@@ -2,7 +2,21 @@ language: ruby
 
 #bundler_args: --without development
 
-script: "bundle exec rake SPEC_OPTS='--format documentation'"
+before_install:
+  - sudo apt-get update -qq
+  - apt-cache search puppet stdlib
+
+install:
+  - sudo apt-get -qq install syslog-ng puppet
+  - bundle install
+
+before_script:
+  - mkdir -p ~/.puppet/modules
+  - ln -s $PWD ~/.puppet/modules/patterndb
+
+script:
+  - bundle exec rake SPEC_OPTS='--format documentation'
+  - echo ./smoke/test
 
 rvm:
   - 1.8.7
