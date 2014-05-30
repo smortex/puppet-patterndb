@@ -43,7 +43,7 @@ Reloading of the syslog-ng daemon is not being taken care of, as the daemon alre
 
 ###Setup Requirements
 
-This module requires `stdlib`
+This module requires `stdlib` and supports `RedHat` and `Debian` osfamilies.
 
 ##Usage
 
@@ -62,14 +62,17 @@ Overriding paths
 
 ### Class: patterndb
 
-Manages `Package['syslog-ng']` if not already included.
+Manages `Package['syslog-ng']` if `$manage_package` is set to `true`.
 Manages `File["$temp_dir"]` as a directory.
 Manages `File` resource `"$base_dir/etc/syslog-ng/patterndb.d"` recursively, and purges unknown files.
+Manages `File["${base_dir}/var/lib/syslog-ng/patterndb.xml"]` or alternate path if overridden using `$pdb_path`.
 
-#### Parameters
+#### Optional Parameters
 
 * `$base_dir` Top level directory for resources
 * `$temp_dir` Temporary directory for various components
+* `$package_name` Name of the `syslog-ng` package. Defaults to the OS standard
+* `$manage_package` Boolean to disable the management of the package. Defaults to `true`
 
 ###Class: patterndb::update
 
@@ -92,6 +95,8 @@ Here's what happens under the hood (code is pretty self-explanatory):
 		} else {
 			File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~>                                Exec['patterndb::deploy']
 		}
+
+There is intentionally no way to test `pdb` files individually, as this only makes sense after the merge.
 
 #### Example
 

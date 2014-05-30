@@ -4,10 +4,10 @@ oses_specs = @oses_specs
 
 describe 'patterndb', :type => 'class' do
   oses_specs.each do |osname, specs|
+    let :package_name do
+      specs[:syslog_ng_package]
+    end
     context "#{osname} OS without package_name" do
-      let :package_name do
-        specs[:syslog_ng_package]
-      end
       let :facts do {
           :osfamily        => specs[:osfamily],
           :operatingsystem => specs[:operatingsystem]
@@ -15,6 +15,14 @@ describe 'patterndb', :type => 'class' do
       end
       it {
         should contain_package(package_name)
+      }
+    end
+    context "#{osname} OS without managing package" do
+      let :params do
+        { :manage_package => false }
+      end
+      it {
+        should_not contain_package(package_name)
       }
     end
   end
@@ -35,4 +43,3 @@ describe 'patterndb', :type => 'class' do
     }
   end
 end
-
