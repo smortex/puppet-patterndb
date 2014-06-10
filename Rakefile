@@ -5,6 +5,6 @@ require 'puppet-lint/tasks/puppet-lint'
 PuppetLint.configuration.fail_on_warnings
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_arrow_alignment')
-PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "smoke/**/*.pp", "pkg/**/**.pp"]
+PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "smoke/*.pp", "smoke/**/*.pp", "pkg/**/**.pp"]
 
 task :default => [:spec, :lint]
