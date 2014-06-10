@@ -281,7 +281,7 @@ Currently used for validation only.
 ### Testing
 
 * Smoke tests: run `./smoke/test` from the root directory
-* For `puppet-rspec` tests use `rake spec` as usual
+* For `puppet-rspec` tests use `bundle install && bundle exec rake spec`
 
 ### Contributing
 
