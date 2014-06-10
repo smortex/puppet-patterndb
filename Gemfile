@@ -8,6 +8,7 @@ source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :development, :test do
     gem 'rake', '10.1.1',          :require => false
+    gem 'rspec', '< 3.0'
     # Latest rspec-puppet is required for coverage
     gem 'rspec-puppet',            :git => 'https://github.com/rodjek/rspec-puppet.git'
     gem 'puppetlabs_spec_helper',  :require => false

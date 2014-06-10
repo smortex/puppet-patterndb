@@ -1,0 +1,14 @@
+{
+  "name": "ccin2p3-patterndb",
+  "version": "1.0.0",
+  "author": "ccin2p3",
+  "summary": "Puppet module for Syslog-ng",
+  "license": "CeCILL 2.1",
+  "source": "git://github.com/ccin2p3/puppet-patterndb.git",
+  "project_page": "https://github.com/ccin2p3/puppet-patterndb",
+  "issues_url": "https://github.com/ccin2p3/puppet-patterndb/issues",
+  "description": "Module for patterndb (syslog-ng) configuration",
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0"}
+  ]
+}
