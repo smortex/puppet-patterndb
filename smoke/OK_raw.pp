@@ -1,6 +1,7 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp/'
+  base_dir => '/tmp/',
+  syslogng_modules => ['tfgetent']
 }
 
 patterndb::raw::ruleset { 'raw':

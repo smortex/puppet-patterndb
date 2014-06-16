@@ -1,8 +1,6 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp'
-}
-class { 'patterndb::update':
+  base_dir => '/tmp',
   syslogng_modules => [ 'tfgeoip', 'tfgetent' ],
   test_before_deploy => true,
 }
@@ -26,13 +24,13 @@ class { 'patterndb::update':
         examples => [
           {
             program => 'sge-query-command',
-            test_message => '0:1017 qstat -f -j 43778',
+            test_message => '0:0 qstat -f -j 43778',
             test_values => {
               'appacct.path' => '',
               'usracct.uid' => '0',
               'usracct.username' => 'root',
               'usracct.groupname' => 'root',
-              'usracct.gid' => '1017',
+              'usracct.gid' => '0',
               'appacct.program' => 'qstat',
               'appacct.attrs' => '-f -j 43778',
             }

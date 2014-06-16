@@ -23,7 +23,7 @@ describe 'patterndb::raw::ruleset' do
       }
     end
     it {
-     should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myrawruleset.pdb')
+     should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myrawruleset.pdb')
     }
   end
   context "Raw rulesets with directory" do
@@ -34,7 +34,7 @@ describe 'patterndb::raw::ruleset' do
       }
     end
     it {
-      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myrawruleset').with(
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myrawruleset').with(
         :ensure => 'directory'
       )
     }

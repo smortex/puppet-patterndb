@@ -1,9 +1,6 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp/'
-}
-
-class { 'patterndb::update':
+  base_dir => '/tmp/',
   syslogng_modules => [ 'basicfuncs' ]
 }
 

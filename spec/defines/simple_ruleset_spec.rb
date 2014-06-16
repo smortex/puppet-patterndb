@@ -66,10 +66,10 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { should contain_class('patterndb::update') }
+    it { should contain_patterndb__update('default') }
     it {
-      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myruleset.pdb').that_notifies(
-        'Exec[patterndb::merge]'
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').that_notifies(
+        'Exec[patterndb::merge::default]'
       ).with_content(
         /<patterndb/m
       ).with_content(
@@ -179,7 +179,7 @@ describe 'patterndb::simple::ruleset' do
       )
     end
     it {
-      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myruleset.pdb').with_content(
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').with_content(
         /<pattern>this is a log message where @ESTRING:key:=@@ANYSTRING:value@/m
       ).with_content(
         /provider='PROVIDER'/m
@@ -210,7 +210,7 @@ describe 'patterndb::simple::ruleset' do
       )
     }
     it {
-      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/myruleset.pdb').with_content(
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').with_content(
         /<action.*>.*<message .*inherit-properties='TRUE'.*>.*<values>.*<value name='MESSAGE'>.*MESSAGE_ACTION.*<\/value>.*<\/values>.*<\/action>/m
       ).with_content(
         /<action.*>.*<message .*inherit-properties='TRUE'.*>.*<tags>.*<tag>.*TAG_ACTION.*<\/tag>.*<\/tags>.*<\/action>/m

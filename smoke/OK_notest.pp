@@ -1,10 +1,11 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp/'
+  base_dir => '/tmp/',
+  syslogng_modules => [ 'pdbtool_test_would_fail_with_this_module' ],
+  test_before_deploy => false
 }
 
-class { 'patterndb::update':
-  syslogng_modules => [ 'pdbtool_test_would_fail_with_this_module' ],
+patterndb::update { 'default':
   test_before_deploy => false
 }
 

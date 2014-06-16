@@ -1,10 +1,8 @@
 #
 class { 'patterndb':
-        base_dir => '/tmp'
-}
-class { 'patterndb::update':
-        syslogng_modules => [ 'tfgeoip', 'tfgetent' ],
-                test_before_deploy => true,
+  base_dir => '/tmp',
+  syslogng_modules => [ 'tfgeoip', 'tfgetent' ],
+  test_before_deploy => true,
 }
 
 patterndb::simple::ruleset { 'yum':

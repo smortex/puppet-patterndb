@@ -3,11 +3,15 @@ class patterndb (
   $base_dir = $::patterndb::defaults::base_dir,
   $temp_dir = $::patterndb::defaults::temp_dir,
   $package_name = false,
-  $manage_package = true
+  $manage_package = true,
+  $syslogng_modules = [],
+  $test_before_deploy = true
 ) inherits patterndb::defaults {
 
   require stdlib
   validate_bool($manage_package)
+  validate_bool($test_before_deploy)
+  validate_array($syslogng_modules)
 # package
   if $manage_package {
     if is_string($package_name) {
@@ -31,6 +35,10 @@ class patterndb (
   ensure_resource ( 'file', "${base_dir}/var/lib", { ensure => 'directory' } )
   ensure_resource (
     'file', "${base_dir}/var/lib/syslog-ng",
+    { ensure => 'directory' }
+  )
+  ensure_resource (
+    'file', "${base_dir}/var/lib/syslog-ng/patterndb",
     { ensure => 'directory' }
   )
   $pdb_dir = "${base_dir}/etc/syslog-ng/patterndb.d"

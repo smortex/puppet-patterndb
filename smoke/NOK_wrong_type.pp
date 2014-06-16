@@ -1,10 +1,8 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp'
-}
-class { 'patterndb::update':
+  base_dir => '/tmp',
   syslogng_modules => [ 'tfgeoip', 'tfgetent' ],
-  test_before_deploy => true,
+  test_before_deploy => true
 }
   patterndb::simple::ruleset { 'sge-query-command':
     id => '114705bd-827b-4033-988c-647314f78bac',

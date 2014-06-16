@@ -20,7 +20,7 @@ This module handles patterndb configuration files.
 
 ##Module Description
 
-This module will manage the pattern dabase of `syslog-ng`.
+This module will manage the pattern databases of `syslog-ng`.
 It manages existing `pdb` files, or generates new ones using key-value pairs in puppet manifests. No need to edit `XML` files anymore \o/.
 Of course, you may also use a combination of both.
 Either way, knowledge of `patterndb` is required as the manifests closely match the `XML` structure of patterndb files.
@@ -33,11 +33,11 @@ The [syslog-ng documentation](http://www.balabit.com/sites/default/files/documen
 Depending on the top-level configuration variable `$base_dir`, this module will manage and execute the following elements in order:
 
 0. Manage package `syslog-ng` if not already handled elsewhere (`stdlib/ensure_resource`)
-1. Manage `$base_dir/etc/syslog-ng/patterndb.d`
+1. Manage `$base_dir/etc/syslog-ng/patterndb.d` recursively
 2. Manage the contents of the above directory using [existing](#defined-type-patterndbrawruleset) or [generated](#defined-type-patterndbsimpleruleset) patterndb ruleset files
-3. Merge the contents of the latter using `pdbtool` into a temporary file `$temp_dir/syslog-ng/patterndb.xml`
-4. (OPTIONAL) Test the resulting patterndb
-5. Deploy the temporary file into `$base_dir/var/lib/syslog-ng/patterndb.xml`
+3. Merge the contents of the latter using `pdbtool` into a temporary file `$temp_dir/syslog-ng/${pdb_name}patterndb.xml` where `$pdb_name` is the name of the patterndb (you can have as many as you want, *e.g.* for *staged parsing*.
+4. (OPTIONAL) Test the resulting patterndbs
+5. Deploy the temporary files into `$base_dir/var/lib/syslog-ng/patterndb/${pdb_name}.xml`
 
 Reloading of the syslog-ng daemon is not being taken care of, as the daemon already does that (very well).
 
@@ -73,19 +73,21 @@ Manages `File["${base_dir}/var/lib/syslog-ng/patterndb.xml"]` or alternate path 
 * `$temp_dir` Temporary directory for various components
 * `$package_name` Name of the `syslog-ng` package. Defaults to the OS standard
 * `$manage_package` Boolean to disable the management of the package. Defaults to `true`
+* `$syslogng_modules` An array of `syslog-ng` modules. This can be used for other defines *e.g.* (update)(#defined-type-patterndbupdate). Defaults to `[]`
+* `$test_before_deploy` A boolean which controls wether to test the pdbs before deploying (see (update)(#defined-type-patterndbupdate)). Defaults to `true`
 
-###Class: patterndb::update
+###Defined Type: patterndb::update
 
 Handles merging and deploying of [provided](#defined-type-patterndbrawruleset) and/or [generated](#defined-type-patterndbsimpleruleset) `pdb` files.
 
 ####Optional Parameters
 
-* syslogng_modules An array of modules to load when running `Exec['pdbtool ...']`
+* `$syslogng_modules` An array of modules to load when running `Exec['pdbtool ...']`
 
 Controls the validation process of the merged patterndb file, *e.g.* `syslogng_modules => [ "tfgeoip" ]` will yield the `Exec` resource `pdbtool test [...] --module tfgeoip`.
-This is necessary in case you are using non autoloading modules in patterndb, otherwise your validation will fail and your patterndb will fail to deploy itself.
+This is necessary in case you are using non autoloading modules in patterndb, otherwise your validation will fail and your patterndb will fail to deploy itself. Defaults to the class value.
 
-* test_before_deploy Boolean
+* `$test_before_deploy Boolean`
 
 Controls wether merged pdb file is validated before being deployed. By default this is set to `true`.
 Here's what happens under the hood (code is pretty self-explanatory):
@@ -96,11 +98,11 @@ Here's what happens under the hood (code is pretty self-explanatory):
 			File['merged_and_deployed_pdb'] ~> Exec['patterndb::merge'] ~>                                Exec['patterndb::deploy']
 		}
 
-There is intentionally no way to test `pdb` files individually, as this only makes sense after the merge.
+There is intentionally no way to test `pdb` files individually, as this only makes sense after the merge. This defaults to the class value.
 
 #### Example
 
-		class { patterndb::update:
+		patterndb::update { 'default':
 			syslogng_modules => [ "tfgeoip", "tfgetent" ],
 			test_before_deploy => true
 		}
