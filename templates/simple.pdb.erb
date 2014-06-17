@@ -1,5 +1,6 @@
 <patterndb version='4' pub_date='<%= @pubdate %>'>
-	<ruleset name='<%= @name -%>' id='<%= @id -%>'>
+	<ruleset name='<%= @name -%>' id='<%= @id -%>'
+		description='<%= @description -%>'<% if @url then -%>url='<%= @url -%>' <%end-%>>
 		<patterns>
 <% @patterns.each do |prg_name| -%>
 			<pattern><%= prg_name -%></pattern>
