@@ -55,5 +55,7 @@ matrix:
 
 notifications:
     email:
-        on_success: change
-        on_failure: always
+      recipients:
+        - wernli@in2p3.fr
+      on_success: change
+      on_failure: always
