@@ -5,7 +5,7 @@ class { 'patterndb':
   test_before_deploy => false
 }
 
-patterndb::update { 'default':
+patterndb::parser { 'default':
   test_before_deploy => false
 }
 

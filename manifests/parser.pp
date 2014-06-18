@@ -1,5 +1,5 @@
 #
-define patterndb::update (
+define patterndb::parser (
   $test_before_deploy = $::patterndb::test_before_deploy,
   $syslogng_modules = $::patterndb::syslogng_modules
 ) {

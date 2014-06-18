@@ -66,7 +66,7 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { should contain_patterndb__update('default') }
+    it { should contain_patterndb__parser('default') }
     it {
       should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').that_notifies(
         'Exec[patterndb::merge::default]'
@@ -99,7 +99,7 @@ describe 'patterndb::simple::ruleset' do
           :patterns => [ 'P1' ],
           :url => 'URL',
           :description => 'DESCRIPTION',
-          :pdb_name => 'PDB_NAME',
+          :parser => 'PARSER',
           :rules => [
             {
               'id' => 'RULE_1_ID',
@@ -109,9 +109,9 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { should_not contain_patterndb__update('default') }
-    it { should contain_patterndb__update('PDB_NAME') }
-    it { should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/PDB_NAME/myruleset.pdb').with_content(
+    it { should_not contain_patterndb__parser('default') }
+    it { should contain_patterndb__parser('PARSER') }
+    it { should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/PARSER/myruleset.pdb').with_content(
         /description='DESCRIPTION'/m
       ).with_content(
         /url='URL'/m
@@ -250,6 +250,6 @@ describe 'patterndb::simple::ruleset' do
       )
     }
     it { should contain_patterndb__simple__action('RULE_ID-0') }
-    it { should contain_patterndb__simple__action__message('RULE_ID-0-message') }
+    it { should contain_patterndb__simple__action__message('RULE_ID-0') }
   end
 end

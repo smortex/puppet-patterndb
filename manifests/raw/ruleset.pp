@@ -5,12 +5,12 @@ define patterndb::raw::ruleset (
   $recurse = true,
   $purge = true,
   $sourceselect = 'all',
-  $pdb_name = 'default',
+  $parser = 'default',
   $ignore = [ '.svn', '.git' ],
 )
 {
   validate_string($source)
-  validate_string($pdb_name)
+  validate_string($parser)
   validate_string($ensure)
   validate_string($sourceselect)
   validate_bool($recurse)
@@ -19,12 +19,12 @@ define patterndb::raw::ruleset (
     include patterndb
   }
 
-  if ! defined(Patterndb::Update[$pdb_name]) {
-    patterndb::update { $pdb_name: }
+  if ! defined(Patterndb::Parser[$parser]) {
+    patterndb::parser { $parser: }
   }
 
   if $ensure == 'directory' {
-    file { "${patterndb::pdb_dir}/${pdb_name}/${name}":
+    file { "${patterndb::pdb_dir}/${parser}/${name}":
       ensure      => $ensure,
       recurse => $recurse,
       mode        => '0644',
@@ -32,14 +32,14 @@ define patterndb::raw::ruleset (
       source     => $source,
       sourceselect => $sourceselect,
       ignore => $ignore,
-      notify      => Exec["patterndb::merge::${pdb_name}"]
+      notify      => Exec["patterndb::merge::${parser}"]
     }
   } else {
-    file { "${patterndb::pdb_dir}/${pdb_name}/${name}.pdb":
+    file { "${patterndb::pdb_dir}/${parser}/${name}.pdb":
       ensure      => $ensure,
       mode        => '0644',
       source     => $source,
-      notify      => Exec["patterndb::merge::${pdb_name}"]
+      notify      => Exec["patterndb::merge::${parser}"]
     }
   }
 }

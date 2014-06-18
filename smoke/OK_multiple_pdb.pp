@@ -5,7 +5,7 @@ class { 'patterndb':
 
 patterndb::simple::ruleset { 'dhclient':
   id       => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
-  pdb_name   => 'stage1',
+  parser   => 'stage1',
   patterns => ['dhclient', 'dhcpclient'],
   pubdate  => '2014-03-14',
   rules => [
@@ -22,7 +22,7 @@ patterndb::simple::ruleset { 'dhclient':
 
 patterndb::simple::ruleset { 'dhclient_fallback':
   id       => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
-  pdb_name   => 'stage2',
+  parser   => 'stage2',
   patterns => ['dhclient', 'dhcpclient'],
   pubdate  => '2014-03-14',
   rules => [

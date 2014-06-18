@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'patterndb::update', :type => 'define' do
+describe 'patterndb::parser', :type => 'define' do
   let :facts do {
     :osfamily => 'RedHat'
   } end
@@ -24,7 +24,7 @@ describe 'patterndb::update', :type => 'define' do
       )
     }
   end
-  context "With syslog-ng module in update" do
+  context "With optional syslog-ng module" do
     let :params do {
       :syslogng_modules => [ "foo","bar"]
     } end
@@ -36,7 +36,7 @@ describe 'patterndb::update', :type => 'define' do
   end
   context "with two patterndbs" do
     let :pre_condition do
-      'patterndb::update { "stage1": }'
+      'patterndb::parser { "stage1": }'
     end
     it {
       should contain_exec('patterndb::test::default').with(
