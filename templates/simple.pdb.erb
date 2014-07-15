@@ -5,12 +5,12 @@
 		<url><%= @url -%></url>
 <% end -%>
 		<patterns>
-<% @patterns.each do |prg_name| -%>
+<% @patterns_a.each do |prg_name| -%>
 			<pattern><%= prg_name -%></pattern>
 <% end -%>
 		</patterns>
 		<rules>
-<% @rules.each do |rule| -%>
+<% @rules_a.each do |rule| -%>
 			<rule provider='<%= rule['provider'] || "puppet@"+@hostname -%>' id='<%= rule['id'] -%>'
 <% if rule['context_id'] -%>
 			      context-id='<%= rule['context_id'] -%>'

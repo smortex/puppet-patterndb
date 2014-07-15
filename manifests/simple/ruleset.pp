@@ -16,8 +16,8 @@ define patterndb::simple::ruleset (
     include patterndb
   }
 
-  validate_array($patterns)
-  validate_array($rules)
+  $patterns_a = string2array($patterns)
+  $rules_a = hash2array($rules)
   validate_string($url)
   validate_string($parser)
   validate_string($description)
@@ -28,7 +28,7 @@ define patterndb::simple::ruleset (
   $pdb_file = "${patterndb::pdb_dir}/${parser}/${name}.pdb"
 
   # validate rules
-  patterndb_simple_rule ($rules)
+  patterndb_simple_rule ($rules_a)
 
   if ! defined(Patterndb::Parser[$parser]) {
     patterndb::parser { $parser: }

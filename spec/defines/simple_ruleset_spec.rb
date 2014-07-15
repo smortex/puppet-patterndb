@@ -35,6 +35,17 @@ describe 'patterndb::simple::ruleset' do
     end
     it { expect {should compile}.to raise_error(/Must pass rules/m)}
   end
+  context "Simple ruleset with wrong type for rules" do
+    let :params do
+      default_params.merge(
+        {
+          :patterns => [ "P" ],
+          :rules => "invalid_type_is_string"
+        }
+      )
+    end
+    it { expect {should compile}.to raise_error(/is neither a hash nor an array/m)}
+  end
   context "Simple ruleset with wrong type for patterns" do
     let :params do
       default_params.merge(
@@ -44,9 +55,43 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/is not an Array/m)}
+    it { expect {should compile}.to raise_error(/is neither a string nor an array/m)}
   end
-  context "Simple ruleset with wrong type for rules" do
+  context "Simple ruleset with hash type for rules" do
+    let :params do
+      default_params.merge(
+        {
+          :patterns => [ 'P1' ],
+          :rules => {
+            'id' => 'RULE_1_ID',
+            'patterns' => []
+          }
+        }
+      )
+    end
+    it { should contain_patterndb__parser('default') }
+    it {
+      should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').with_content(
+        /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
+      )
+    }
+    it { should contain_patterndb__simple__rule('RULE_1_ID') }
+  end
+  context "Simple ruleset with string type for patterns" do
+    let :params do
+      default_params.merge(
+        {
+          :patterns => 'P1',
+          :rules => [ ]
+        }
+      )
+    end
+    it { should contain_patterndb__parser('default') }
+    it { should contain_file('BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb').with_content(
+        /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
+    ) }
+  end
+  context "Simple ruleset with invalid string type for rules" do
     let :params do
       default_params.merge(
         {
@@ -55,7 +100,7 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/is not an Array/m)}
+    it { expect {should compile}.to raise_error(/is neither a hash nor an array/m)}
   end
   context "Simple ruleset with empty rules and patterns" do
     let :params do
