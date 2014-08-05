@@ -4,7 +4,7 @@ define patterndb::simple::action::message (
   $tags = undef,
   $inherit_properties = undef,
 ) {
-  validate_string($inherit_properties)
+  validate_bool($inherit_properties)
   validate_hash($values)
   validate_array($tags)
 }

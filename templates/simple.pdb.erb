@@ -49,7 +49,7 @@
 <% end -%>>
 <% message = action['message']
 if message -%>
-						<message<% if message['inherit_properties'] then %> inherit-properties='<%=message['inherit_properties'] -%>'<%end-%>>
+						<message<% if message['inherit_properties'] then %> inherit-properties='TRUE'<%end-%>>
 <% if message['tags'] -%>
 							<tags>
 <% message['tags'].each do |tag| -%>
