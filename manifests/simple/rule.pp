@@ -23,31 +23,33 @@ define patterndb::simple::rule (
   validate_string($context_id)
   validate_string($context_timeout)
   validate_string($context_scope)
-  validate_array($patterns)
-  validate_array($urls)
-  validate_array($examples)
-  validate_array($tags)
-  validate_array($actions)
+  $patterns_a = string2array($patterns)
+  $urls_a = string2array($urls)
+  $examples_a = string2array($examples)
+  $tags_a = string2array($tags)
+  $actions_a = string2array($actions)
   validate_hash($values)
 
 # validate sample messages
-  patterndb_simple_example ( $examples, $id )
-# validate actions
-  patterndb_simple_action ( $actions, $id )
-  if ($_embedded) { # we were defined from within the ruleset definition
-    concat::fragment { "patterndb_simple_rule-${title}":
-      target  => "patterndb_simple_ruleset-${ruleset}",
-      content => template('patterndb/rule.erb'),
-    }
-  } else { # we were defined on our own
-    if (defined(Patterndb::Simple::Ruleset[$ruleset])) {
-      concat::fragment { "patterndb_simple_rule-${title}":
-        target  => "patterndb_simple_ruleset-${ruleset}",
-        content => template('patterndb/rule.erb'),
-      }
-    } else {
+  patterndb_simple_example ( $examples_a, $id )
+  if (! $_embedded) { # we were defined outside the ruleset
+    if (! defined(Patterndb::Simple::Ruleset[$ruleset])) {
       fail("Failed while trying to define rule `${title}` for undeclared ruleset `${ruleset}`")
     }
+  }
+  # header
+  concat::fragment { "patterndb_simple_rule-${title}-header":
+    target  => "patterndb_simple_ruleset-${ruleset}",
+    content => template('patterndb/rule-header.erb'),
+    order   => "002-${title}-001",
+  }
+  # import embedded actions
+  patterndb_simple_action ( $actions_a, $id )
+  # footer
+  concat::fragment { "patterndb_simple_rule-${title}-footer":
+    target  => "patterndb_simple_ruleset-${ruleset}",
+    content => template('patterndb/rule-footer.erb'),
+    order   => "002-${title}-zzz",
   }
 }
 

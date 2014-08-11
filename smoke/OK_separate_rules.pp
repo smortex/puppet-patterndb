@@ -3,6 +3,11 @@ class { 'patterndb':
   base_dir => '/tmp/'
 }
 
+patterndb::simple::ruleset { 'empty_ruleset':
+  patterns => 'a',
+  pubdate  => '1970-01-01'
+}
+
 patterndb::simple::ruleset { 'ruleset-a':
   id       => '99515b6c-2057-4232-b459-58ecaf2842bc',
   patterns => [ 'a' ],
@@ -20,7 +25,7 @@ patterndb::simple::rule { 'x':
   ruleclass => 'b',
   examples => [
     {
-      program => 'a',
+      program => 'x',
       test_message => 'match something else like me dude',
       test_values => {
         'this' => 'me'

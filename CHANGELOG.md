@@ -1,4 +1,6 @@
-* 2014-07-15 2.1.0 Coerce some types
+* 2014-08-12 2.1.0 Coerce some types
+  - rulesets, rules and actions can now be declared separately
+    this pulls in the puppetlabs-concat dependancy
   - allow rules and patterns to be strings
     that will be coerced to single-element arrays
     this will make it easier to use this module with puppetdb

@@ -1,0 +1,24 @@
+					<action<% if @trigger then -%> trigger='<%= @trigger -%>'<% if @rate then -%> rate='<%= @rate -%>'<%end-%>
+<% if @condition then -%> condition='<%= @condition -%>'<% end -%>
+<% end -%>>
+<% message = @message
+if message -%>
+						<message<% if message['inherit_properties'] then %> inherit-properties='TRUE'<%end-%>>
+<% if message['tags'] -%>
+							<tags>
+<% message['tags'].each do |tag| -%>
+								<tag><%= tag %></tag>
+<% end -%>
+							</tags>
+<% end -%>
+<% values = Hash[message['values']].sort
+if values -%>
+							<values>
+<% values.each do |k,v| -%>
+								<value name='<%= k %>'><%= v %></value>
+<% end -%>
+							</values>
+<% end -%>
+						</message>
+<% end -%>
+					</action>

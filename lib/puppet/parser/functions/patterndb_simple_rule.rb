@@ -4,6 +4,9 @@ module Puppet::Parser::Functions
     ruleset = rules.shift
     rules.each do |rule|
       rule.each do |r|
+        if (! r.has_key?('id')) then
+          fail("Failed to create embedded rule for ruleset `#{ruleset}`: no 'id' provided!")
+        end
         r['ruleset'] = ruleset
         r['_embedded'] = true
         Puppet::Parser::Functions.function(:create_resources)

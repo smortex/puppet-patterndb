@@ -39,7 +39,11 @@ class patterndb (
   )
   ensure_resource (
     'file', "${base_dir}/var/lib/syslog-ng/patterndb",
-    { ensure => 'directory' }
+    {
+      ensure => 'directory',
+      purge => true,
+      recurse => true
+    }
   )
   $pdb_dir = "${base_dir}/etc/syslog-ng/patterndb.d"
   file { $pdb_dir:

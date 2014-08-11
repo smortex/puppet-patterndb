@@ -9,7 +9,8 @@
   "issues_url": "https://github.com/ccin2p3/puppet-patterndb/issues",
   "description": "Module for managing patterndb (syslog-ng) configuration files on Linux",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0"}
+    {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0"},
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.4"}
   ],
   "operatingsystem_support": [
     {

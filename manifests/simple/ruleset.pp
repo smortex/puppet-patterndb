@@ -47,6 +47,6 @@ define patterndb::simple::ruleset (
 
   if (! empty($rules)) { # monolithic ruleset definition
     # import embedded rules
-    patterndb_simple_rule ($id, $rules_a)
+    patterndb_simple_rule ($name, $rules_a)
   }
 }

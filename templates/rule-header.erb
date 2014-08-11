@@ -10,7 +10,7 @@
 <% end -%>
 			      class='<%= @ruleclass -%>'>
 				<patterns>
-<% @patterns.each do |pattern| -%>
+<% @patterns_a.each do |pattern| -%>
 					<pattern><%= pattern -%></pattern>
 <% end -%>
 				</patterns>
@@ -23,44 +23,14 @@
 <% end -%>
 <% if ! @tags.empty? -%>
 				<tags>
-<% @tags.each do |tag| -%>
+<% @tags_a.each do |tag| -%>
 					<tag><%= tag -%></tag>
 <% end -%>
 				</tags>
 <% end -%>
-<% if ! @actions.empty? -%>
-				<actions>
-<% @actions.each do |action| -%>
-					<action<% if action['trigger'] then -%> trigger='<%=action['trigger'] -%>'<% if action['rate'] then -%> rate='<%=action['rate'] -%>'<%end-%>
-<% if action['condition'] then -%> condition='<%=action['condition'] -%>'<% end -%>
-<% end -%>>
-<% message = action['message']
-if message -%>
-						<message<% if message['inherit_properties'] then %> inherit-properties='TRUE'<%end-%>>
-<% if message['tags'] -%>
-							<tags>
-<% message['tags'].each do |tag| -%>
-								<tag><%= tag %></tag>
-<% end -%>
-							</tags>
-<% end -%>
-<% values = Hash[message['values']].sort
-if values -%>
-							<values>
-<% values.each do |k,v| -%>
-								<value name='<%= k %>'><%= v %></value>
-<% end -%>
-							</values>
-<% end -%>
-						</message>
-<% end -%>
-					</action>
-<% end -%>
-				</actions>
-<% end -%>
 <% if ! @examples.empty? -%>
 				<examples>
-<% @examples.each do |example| -%>
+<% @examples_a.each do |example| -%>
 					<example>
 						<test_message program="<%= example['program'] -%>"><%= example['test_message'] -%></test_message>
 <% if example['test_values'] -%>
@@ -74,4 +44,4 @@ if values -%>
 <% end -%>
 				</examples>
 <% end -%>
-			</rule>
+				<actions>

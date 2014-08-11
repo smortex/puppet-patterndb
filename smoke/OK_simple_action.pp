@@ -39,7 +39,7 @@ patterndb::simple::ruleset { 'dhclient':
           rate      => '1/60',
           condition => '"2" > "1"',
           message              => {
-            inherit_properties => 'TRUE',
+            inherit_properties => true,
             values             => {
               'MESSAGE'          => 'this is a patterdb generated message',
             },

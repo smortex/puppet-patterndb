@@ -14,6 +14,9 @@ patterndb::simple::ruleset { 'plop':
       values => {
         'plop' => 'ploup'
       },
+    },{
+      id => 'plop2',
+      patterns => 'hollo',
     }
   ]
 }
@@ -38,4 +41,14 @@ patterndb::simple::ruleset { 'a':
   }
 }
 
+patterndb::simple::rule { 'rule-a':
+  ruleset  => 'a',
+  patterns => 'please match me',
+  examples => [
+    {
+      program      => 'a',
+      test_message => 'please match me',
+    }
+  ]
+}
 
