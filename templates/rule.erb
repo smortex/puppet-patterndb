@@ -1,0 +1,77 @@
+			<rule provider='<%= @provider -%>' id='<%= @id -%>'
+<% if @context_id -%>
+			      context-id='<%= @context_id -%>'
+<% end -%>
+<% if @context_scope -%>
+			      context-scope='<%= @context_scope -%>'
+<% end -%>
+<% if @context_timeout -%>
+			      context-timeout='<%= @context_timeout -%>'
+<% end -%>
+			      class='<%= @ruleclass -%>'>
+				<patterns>
+<% @patterns.each do |pattern| -%>
+					<pattern><%= pattern -%></pattern>
+<% end -%>
+				</patterns>
+<% if ! @values.empty? -%>
+				<values>
+<% Hash[@values].sort.each do |k,v| -%>
+					<value name='<%= k %>'><%= v %></value>
+<% end -%>
+				</values>
+<% end -%>
+<% if ! @tags.empty? -%>
+				<tags>
+<% @tags.each do |tag| -%>
+					<tag><%= tag -%></tag>
+<% end -%>
+				</tags>
+<% end -%>
+<% if ! @actions.empty? -%>
+				<actions>
+<% @actions.each do |action| -%>
+					<action<% if action['trigger'] then -%> trigger='<%=action['trigger'] -%>'<% if action['rate'] then -%> rate='<%=action['rate'] -%>'<%end-%>
+<% if action['condition'] then -%> condition='<%=action['condition'] -%>'<% end -%>
+<% end -%>>
+<% message = action['message']
+if message -%>
+						<message<% if message['inherit_properties'] then %> inherit-properties='TRUE'<%end-%>>
+<% if message['tags'] -%>
+							<tags>
+<% message['tags'].each do |tag| -%>
+								<tag><%= tag %></tag>
+<% end -%>
+							</tags>
+<% end -%>
+<% values = Hash[message['values']].sort
+if values -%>
+							<values>
+<% values.each do |k,v| -%>
+								<value name='<%= k %>'><%= v %></value>
+<% end -%>
+							</values>
+<% end -%>
+						</message>
+<% end -%>
+					</action>
+<% end -%>
+				</actions>
+<% end -%>
+<% if ! @examples.empty? -%>
+				<examples>
+<% @examples.each do |example| -%>
+					<example>
+						<test_message program="<%= example['program'] -%>"><%= example['test_message'] -%></test_message>
+<% if example['test_values'] -%>
+						<test_values>
+<% Hash[example['test_values']].sort.each do |k,v| -%>
+							<test_value name='<%=k%>'><%=v%></test_value>
+<% end -%>
+						</test_values>
+<% end -%>
+					</example>
+<% end -%>
+				</examples>
+<% end -%>
+			</rule>
