@@ -1,4 +1,6 @@
 * 2014-08-12 2.1.0 Coerce some types
+  - rules accept the `order` parameter which controls the order
+    of appearance in the merged parser file
   - rulesets, rules and actions can now be declared separately
     this pulls in the puppetlabs-concat dependancy
   - allow rules and patterns to be strings

@@ -358,6 +358,7 @@ Describes a *rule* in a [*ruleset*](#defined-type-patterndbsimpleruleset). Will 
 * `$context_id` An identifier to group related log messages when using the *pattern database* to *correlate* events
 * `$context_timeout` The number of seconds the *context* is stored
 * `$actions` An array of [*actions*](#defined-type-patterndbsimpleaction) to perform when matching this rule. If given, this will create as many `Patterndb::Simple::Action` resources as there are elements in the array. Their name will be generated automatically using the *rule*'s name. *Actions* can also be defined on their own.
+* `$order` A string which will control the order in which the rule will appear in the final merged *patterndb parser*. This is sometimes necessary due to [a bug in *syslog-ng*](https://bugzilla.balabit.com/show_bug.cgi?id=211)
 
 #### Examples
 

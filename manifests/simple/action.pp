@@ -5,6 +5,7 @@ define patterndb::simple::action (
   $rate = undef,
   $condition = undef,
   $_embedded = false,
+  $rule_order = '00',
   $message = undef,
 ) {
   validate_string($trigger)
@@ -24,6 +25,6 @@ define patterndb::simple::action (
   concat::fragment { "patterndb_simple_rule-${rule}-${title}":
     target  => "patterndb_simple_ruleset-${ruleset}",
     content => template('patterndb/action.erb'),
-    order   => "002-${rule}-002",
+    order   => "002-${rule_order}-${rule}-002",
   }
 }

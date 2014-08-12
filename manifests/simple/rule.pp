@@ -9,6 +9,7 @@ define patterndb::simple::rule (
   $_embedded = false,
   $context_timeout = undef,
   $context_scope = undef,
+  $order = '00',
   $actions = [],
 # begin currently ignored
   $urls = [],
@@ -41,15 +42,15 @@ define patterndb::simple::rule (
   concat::fragment { "patterndb_simple_rule-${title}-header":
     target  => "patterndb_simple_ruleset-${ruleset}",
     content => template('patterndb/rule-header.erb'),
-    order   => "002-${title}-001",
+    order   => "002-${order}-${title}-001",
   }
   # import embedded actions
-  patterndb_simple_action ( $actions_a, $id )
+  patterndb_simple_action ( $actions_a, $id, $order )
   # footer
   concat::fragment { "patterndb_simple_rule-${title}-footer":
     target  => "patterndb_simple_ruleset-${ruleset}",
     content => template('patterndb/rule-footer.erb'),
-    order   => "002-${title}-zzz",
+    order   => "002-${order}-${title}-zzz",
   }
 }
 
