@@ -1,6 +1,6 @@
-					<action<% if @trigger then -%> trigger='<%= @trigger -%>'<% if @rate then -%> rate='<%= @rate -%>'<%end-%>
+					<action<% if @trigger then -%> trigger='<%= @trigger -%>'<% end %><% if @rate then -%> rate='<%= @rate -%>'<%end-%>
 <% if @condition then -%> condition='<%= @condition -%>'<% end -%>
-<% end -%>>
+>
 <% message = @message
 if message -%>
 						<message<% if message['inherit_properties'] then %> inherit-properties='TRUE'<%end-%>>
