@@ -395,13 +395,13 @@ See the paragraph [13.5.3](http://www.balabit.com/sites/default/files/documents/
 #### Mandatory Parameters
 
 * `$rule` A string containing the *name* of the *rule* this action should apply to
+* `$message` A hash describing the [message](#defined-type-patterndbsimpleactionmessage) to be sent when the action is executed. A resource of type `Patterndb::Simple::Action::Message` will be created for you.
 
 #### Optional Parameters
 
 * `$trigger` Specifies when the *action* is executed. The *trigger* attribute has the following possible values: `match` or `timeout`. 
 * `$rate` Specifies maximum how many messages should be generated in the specified time period in the following format: messages/second, *e.g.* `1/60`
 * `$condition` The *action* is performed only if the message matches the *filter*
-* `$message` A hash describing the [message](#defined-type-patterndbsimpleactionmessage) to be sent when the action is executed. A resource of type `Patterndb::Simple::Action::Message` will be created for you.
 
 #### Example
 

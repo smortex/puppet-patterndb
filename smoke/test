@@ -8,7 +8,7 @@ for manifest in $(find ./smoke -type f -name 'OK_*.pp'); do
 	echo '*'
  	puppet apply $manifest
 	echo '*'
-	echo '* OK *'
+	echo '* Passed OK *'
 done
 for manifest in $(find ./smoke -type f -name 'NOK_*.pp'); do
 	echo '*'
@@ -16,5 +16,5 @@ for manifest in $(find ./smoke -type f -name 'NOK_*.pp'); do
 	echo '*'
  	! puppet apply $manifest
 	echo '*'
-	echo '* OK *'
+	echo '* Failed OK *'
 done

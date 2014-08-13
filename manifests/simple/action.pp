@@ -1,12 +1,12 @@
 # default values are being ignored for now
 define patterndb::simple::action (
   $rule,
+  $message,
   $trigger = undef,
   $rate = undef,
   $condition = undef,
   $_embedded = false,
   $rule_order = '00',
-  $message = undef,
 ) {
   validate_string($trigger)
   if $trigger and ! ($trigger in ['match', 'timeout']) {
@@ -15,8 +15,9 @@ define patterndb::simple::action (
   validate_string($rate)
   validate_string($condition)
   validate_hash($message)
+  # validate message
   patterndb_simple_action_message ($message, $name)
-  if ($_embedded) { # we were defined outside the rule
+  if (! $_embedded) { # we were defined outside the rule
     if (! defined(Patterndb::Simple::Rule[$rule])) {
       fail("Failed while trying to define action `${title}` for undeclared rule `${rule}`")
     }

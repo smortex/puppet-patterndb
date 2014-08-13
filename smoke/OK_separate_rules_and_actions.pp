@@ -8,9 +8,23 @@ Exec {
 }
 
 patterndb::simple::ruleset { 'ruleset-a':
-  id       => '99515b6c-2057-4232-b459-58ecaf2842bc',
-  patterns => [ 'a' ],
-  pubdate  => '1985-01-01',
+  id          => '99515b6c-2057-4232-b459-58ecaf2842bc',
+  patterns    => [ 'a' ],
+  pubdate     => '1985-01-01',
+  rules       => {
+    'id'      => 'MY_EMBEDDED_RULE_ID',
+    'patterns' => 'abcde'
+  }
+}
+
+patterndb::simple::action { 'myaction':
+  rule     => 'MY_EMBEDDED_RULE_ID',
+  message  => {
+    values => {
+      'a'  => 'b'
+    },
+    tags   => [ 'plop' ]
+  },
 }
 
 patterndb::simple::rule { 'rule-a':
