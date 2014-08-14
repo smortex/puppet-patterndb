@@ -11,8 +11,8 @@ if message -%>
 <% end -%>
 							</tags>
 <% end -%>
-<% values = Hash[message['values']].sort
-if values -%>
+<% if message['values']
+values = Hash[message['values']].sort -%>
 							<values>
 <% values.each do |k,v| -%>
 								<value name='<%= k %>'><%= v %></value>
