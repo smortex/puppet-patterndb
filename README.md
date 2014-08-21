@@ -41,7 +41,8 @@ Reloading of the *syslog-ng* daemon is not being taken care of, as the latter al
 
 ### Setup Requirements
 
-This module requires *stdlib* and supports *RedHat* and *Debian* *osfamilies*.
+This module requires the modules *puppetlabs-stdlib* and *puppetlabs-concat*.
+It supports *RedHat* and *Debian* *osfamilies*.
 
 ## Terminology
 
@@ -436,6 +437,8 @@ Defined type describing *action* message in an [*action*](#defined-type-patternd
 
 ## Upgrading
 
+### From 1.0.0 or earlier
+
 If you're one of the few who downloaded the previous version 1.0.0, you'll notice breaking changes, see the *CHANGELOG* File for more information. Basically, you only have to change your manifest code in case you were explicitly loading the `patterndb::update` class. In that case, replace the following:
 ```puppet
 class { patterndb::update:
@@ -449,6 +452,11 @@ patterndb::parser { 'default':
 }
 ```
 And you should be okay
+
+### From 2.0.0 to 2.1.0
+
+There are no breaking changes but the fact that the module now requires *puppetlabs-concat*.
+This dependency was required for the separation of *rules* and *rulesets*.
  
 ## Development
  

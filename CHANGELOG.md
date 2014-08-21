@@ -1,4 +1,4 @@
-* 2014-08-12 2.1.0 Coerce some types
+* 2014-08-12 2.1.0 Separate Rulesets, Rules and Actions
   - rules accept the `order` parameter which controls the order
     of appearance in the merged parser file
   - rulesets, rules and actions can now be declared separately
