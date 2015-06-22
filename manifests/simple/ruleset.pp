@@ -20,7 +20,14 @@ define patterndb::simple::ruleset (
   validate_string($parser)
   validate_string($description)
   validate_string($pubdate)
-  validate_re($version, '^\d+$')
+  if is_string($version) {
+    # let's come back to this when puppet has proper types
+    # validate_re($version, '^\d+$')
+  } elsif is_integer($version) {
+    # everything okay
+  } else {
+    fail('version must be integer(ish)')
+  }
   validate_re($pubdate, '^\d+-\d+-\d+$')
 
   if ! defined(Patterndb::Parser[$parser]) {

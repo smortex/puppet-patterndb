@@ -22,7 +22,9 @@ define patterndb::simple::rule (
   validate_string($provider)
   validate_string($ruleclass)
   validate_string($context_id)
-  validate_string($context_timeout)
+  unless (is_string($context_timeout) or is_integer($context_timeout)) {
+    fail('context_timeout must be integer(ish)')
+  }
   validate_string($context_scope)
   $patterns_a = string2array($patterns)
   $urls_a = string2array($urls)
