@@ -26,7 +26,8 @@ define patterndb::simple::rule (
     fail('context_timeout must be integer(ish)')
   }
   validate_string($context_scope)
-  $patterns_a = string2array($patterns)
+  $patterns_sanitized = htmlentities($patterns)
+  $patterns_a = string2array($patterns_sanitized)
   $urls_a = string2array($urls)
   $examples_a = string2array($examples)
   $tags_a = string2array($tags)
