@@ -1,7 +1,7 @@
 #
 define patterndb::simple::ruleset (
-  $patterns,
   $pubdate,
+  $patterns = [],
   $rules = [],
   $id = $name,
   $parser = 'default',
