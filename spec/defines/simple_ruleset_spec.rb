@@ -25,7 +25,13 @@ describe 'patterndb::simple::ruleset' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/Must pass patterns/m)}
+    it {
+      should contain_patterndb__simple__ruleset('myruleset').with(
+        {
+          :parser => 'default'
+        }
+      )
+    }
   end
   context "Simple ruleset with wrong type for rules" do
     let :params do
