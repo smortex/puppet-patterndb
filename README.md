@@ -43,6 +43,7 @@ Reloading of the *syslog-ng* daemon is not being taken care of, as the latter al
 
 This module requires the modules *puppetlabs-stdlib* and *puppetlabs-concat*.
 It supports *RedHat* and *Debian* *osfamilies*.
+Puppet versions from 3.x and onwards are supported up to 4.x
 
 ## Terminology
 
