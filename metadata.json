@@ -10,7 +10,7 @@
   "description": "Module for managing patterndb (syslog-ng) configuration files on Linux",
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0"},
-    {"name":"puppetlabs/concat","version_requirement":">= 1.0.4"}
+    {"name":"puppetlabs/concat","version_requirement":">= 1.0.4 <2.0.0"}
   ],
   "operatingsystem_support": [
     {
