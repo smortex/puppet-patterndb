@@ -25,21 +25,21 @@ define patterndb::raw::ruleset (
 
   if $ensure == 'directory' {
     file { "${patterndb::pdb_dir}/${parser}/${name}":
-      ensure      => $ensure,
-      recurse => $recurse,
-      mode        => '0644',
-      purge => $purge,
-      source     => $source,
+      ensure       => $ensure,
+      recurse      => $recurse,
+      mode         => '0644',
+      purge        => $purge,
+      source       => $source,
       sourceselect => $sourceselect,
-      ignore => $ignore,
-      notify      => Exec["patterndb::merge::${parser}"]
+      ignore       => $ignore,
+      notify       => Exec["patterndb::merge::${parser}"]
     }
   } else {
     file { "${patterndb::pdb_dir}/${parser}/${name}.pdb":
-      ensure      => $ensure,
-      mode        => '0644',
-      source     => $source,
-      notify      => Exec["patterndb::merge::${parser}"]
+      ensure => $ensure,
+      mode   => '0644',
+      source => $source,
+      notify => Exec["patterndb::merge::${parser}"]
     }
   }
 }
