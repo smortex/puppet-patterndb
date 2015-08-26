@@ -335,4 +335,22 @@ describe 'patterndb::simple::ruleset' do
     it { should contain_patterndb__simple__action('RULE_ID-0') }
     it { should contain_patterndb__simple__action__message('RULE_ID-0') }
   end
+  context "Simple ruleset with order" do
+    let :params do
+      default_params.merge(
+        {
+          :patterns => 'P1',
+          :order => '123',
+          :rules => [ ]
+        }
+      )
+    end
+    it { should contain_patterndb__parser('default') }
+    it {
+      should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/123myruleset.pdb'})
+      should contain_concat__fragment('patterndb_simple_ruleset-myruleset-header').with_content(
+        /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
+      )
+    }
+  end
 end
