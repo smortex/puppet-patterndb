@@ -12,7 +12,8 @@ group :development, :test do
     # Latest rspec-puppet is required for coverage
     gem 'rspec-puppet',            :git => 'https://github.com/rodjek/rspec-puppet.git'
     gem 'puppetlabs_spec_helper',  :require => false
-    gem 'puppet-lint',             :require => false
+    # Latest puppet-lint required for ignore paths to work
+    gem 'puppet-lint',             :git => 'https://github.com/rodjek/puppet-lint.git'
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
