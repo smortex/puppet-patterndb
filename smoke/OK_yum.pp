@@ -1,5 +1,6 @@
 #
 class { 'patterndb':
+  manage_package => false,
   base_dir => '/tmp',
   syslogng_modules => [ 'tfgeoip', 'tfgetent' ],
   test_before_deploy => true,

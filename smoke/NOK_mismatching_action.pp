@@ -1,6 +1,7 @@
 #
 class { 'patterndb':
-  base_dir => '/tmp/'
+  manage_package => false,
+  base_dir       => '/tmp/'
 }
 
 Exec {
