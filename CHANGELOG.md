@@ -1,8 +1,11 @@
-## 2015-08-26 2.2.0
+## 2015-08-26 2.2.1
 
 * context_timeout now accepts Fixnum as well as String
 * add parameter order for ruleset
 * Drop support for puppet 2.x
+* minor author fixes
+
+## 2015-08-26 2.2.0 UNRELEASED
 
 ## 2015-08-26 2.1.1 UNRELEASED
 

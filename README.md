@@ -1,6 +1,6 @@
 # ccin2p3-patterndb
 
-[![Build Status](https://travis-ci.org/ccin2p3/puppet-patterndb.svg?branch=master)](https://travis-ci.org/ccin2p3/puppet-patterndb)
+[![Build Status](https://api.travis-ci.org/ccin2p3/puppet-patterndb.svg?branch=v2.2.1)](https://travis-ci.org/ccin2p3/puppet-patterndb)
 
 #### Table of Contents
 
