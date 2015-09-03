@@ -1,9 +1,9 @@
 {
   "name": "ccin2p3-patterndb",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "author": "ccin2p3",
   "summary": "Puppet module for patterndb (Syslog-ng)",
-  "license": "CeCILL B",
+  "license": "CECILL-B",
   "source": "git://github.com/ccin2p3/puppet-patterndb.git",
   "project_page": "https://github.com/ccin2p3/puppet-patterndb",
   "issues_url": "https://github.com/ccin2p3/puppet-patterndb/issues",

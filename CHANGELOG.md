@@ -1,3 +1,7 @@
+## 2015-08-26 2.2.2
+
+* fix bug in htmlentities that fracked up pdbs iunder ruby 2.1
+
 ## 2015-08-26 2.2.1
 
 * context_timeout now accepts Fixnum as well as String
