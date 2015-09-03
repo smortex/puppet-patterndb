@@ -10,7 +10,7 @@ def _htmlentities(str)
         '<' => '&lt;',
         '&' => '&amp;',
       }
-      r_h.each do |k,v|
+      r_h.sort.each do |k,v|
         str = str.gsub(/#{k}/,v)
       end
       return str
