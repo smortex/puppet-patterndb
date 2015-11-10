@@ -7,3 +7,4 @@
 * purge deployed files if needed: currently when removing all rulesets from a parser, the merged file stays in place in /var/lib/syslog-ng/patterndb/<parser>.xml
 * rules should be able to reference rulesets by name and by id
 * ruleset names must not contain '/' char as the module uses that to create files
+* add warning about value name ordering: critical when values depend on other values: the latter need to be defined before
