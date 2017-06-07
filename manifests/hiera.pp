@@ -5,17 +5,17 @@ class patterndb::hiera (
 {
   create_resources(
     'patterndb::parser',
-    hiera("${prefix}::parser", {})
+    hiera_hash("${prefix}::parser", {})
   )
   create_resources(                                                                       'patterndb::simple::ruleset',
-    hiera("${prefix}::ruleset",{})
+    hiera_hash("${prefix}::ruleset",{})
   )
   create_resources(
     'patterndb::simple::rule',
-    hiera("${prefix}::rule", {})
+    hiera_hash("${prefix}::rule", {})
   )
   create_resources(
     'patterndb::simple::action',
-    hiera("${prefix}::action", {})
+    hiera_hash("${prefix}::action", {})
   )
 }
