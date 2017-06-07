@@ -1,3 +1,5 @@
+# TODO
+
 * reduce number of fragments by looping in templates instead
 * fix bug when action is defined for a rule with order: concat fragments get mixed up
 * empty actions sections do not validate #3 
