@@ -1,3 +1,7 @@
+## 2017-06-07 2.3.0-beta1
+
+* add support for polling hiera
+
 ## 2015-08-26 2.2.2
 
 * fix bug in htmlentities that fracked up pdbs iunder ruby 2.1
