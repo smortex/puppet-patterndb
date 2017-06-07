@@ -152,7 +152,16 @@ This class will manage the following *resources*:
 * `$package_name` Name of the `syslog-ng` package. Defaults to the OS shipped
 * `$manage_package` Boolean to control the management of the package. Defaults to `true`
 * `$syslogng_modules` An array of `syslog-ng` modules to use. This will be used for other resources *e.g.* [update](#defined-type-patterndbparser). Defaults to `[]`
+* `$use_hiera` Boolean controlling inclusion of class `patterndb::hiera`
 * `$test_before_deploy` A boolean which controls wether to test the *patterndbs* before deploying (see [update](#defined-type-patterndbparser)). Defaults to `true`
+
+### Class: patterndb::hiera
+
+This class will create `parser`, `ruleset`, `rule`, and `action` resources from hiera.
+
+#### Optional Parameters
+
+* `$prefix` The prefix of variable names in hiera. The default is `patterndb` which will create `patterndb::simple::rule` resources specified in hiera as `patterndb::rule`. If you use `foo`, it would pull `foo::rule` instead.
 
 ### Defined Type: patterndb::parser
 

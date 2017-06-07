@@ -5,6 +5,7 @@ class patterndb (
   $package_name = false,
   $manage_package = true,
   $syslogng_modules = [],
+  $use_hiera = false,
   $test_before_deploy = true
 ) inherits patterndb::defaults {
 
@@ -53,5 +54,8 @@ class patterndb (
     source  => 'puppet:///modules/patterndb/patterndb.d',
   }
 
+  if $use_hiera {
+    include patterndb::hiera
+  }
 }
 
