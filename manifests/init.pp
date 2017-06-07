@@ -6,6 +6,7 @@ class patterndb (
   $manage_package = true,
   $syslogng_modules = [],
   $use_hiera = false,
+  $_manage_top_dirs = true,
   $test_before_deploy = true
 ) inherits patterndb::defaults {
 
@@ -27,13 +28,15 @@ class patterndb (
     ensure_resource ( 'package', $real_package_name, { 'ensure' => 'installed' })
   }
   ensure_resource ( 'file', $temp_dir, { ensure => directory } )
-  ensure_resource ( 'file', "${base_dir}/etc", { ensure => 'directory' } )
+  if $_manage_top_dirs {
+    ensure_resource ( 'file', "${base_dir}/etc", { ensure => 'directory' } )
+    ensure_resource ( 'file', "${base_dir}/var", { ensure => 'directory' } )
+    ensure_resource ( 'file', "${base_dir}/var/lib", { ensure => 'directory' } )
+  }
   ensure_resource (
     'file', "${base_dir}/etc/syslog-ng",
     { ensure => 'directory' }
   )
-  ensure_resource ( 'file', "${base_dir}/var", { ensure => 'directory' } )
-  ensure_resource ( 'file', "${base_dir}/var/lib", { ensure => 'directory' } )
   ensure_resource (
     'file', "${base_dir}/var/lib/syslog-ng",
     { ensure => 'directory' }
