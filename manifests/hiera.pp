@@ -7,7 +7,8 @@ class patterndb::hiera (
     'patterndb::parser',
     hiera_hash("${prefix}::parser", {})
   )
-  create_resources(                                                                       'patterndb::simple::ruleset',
+  create_resources(
+    'patterndb::simple::ruleset',
     hiera_hash("${prefix}::ruleset",{})
   )
   create_resources(
