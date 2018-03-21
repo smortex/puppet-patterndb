@@ -12,14 +12,14 @@ install:
   - bundle install
 
 before_script:
-  - mkdir -p ~/.puppet/modules
-  - ln -s $PWD ~/.puppet/modules/patterndb
-  - git clone https://github.com/puppetlabs/puppetlabs-stdlib ~/.puppet/modules/stdlib
-  - git clone https://github.com/puppetlabs/puppetlabs-concat ~/.puppet/modules/concat
+  - bundle install
+  - bundle exec puppet --version
+  - bundle exec puppet module build
+  - bundle exec puppet module install pkg/*.tar.gz
 
 script:
-  - bundle exec rake SPEC_OPTS='--format documentation'
-  - ./smoke/test
+  - bundle exec rake spec
+  - bundle exec ./smoke/test
 
 rvm:
   - 2.1.9
