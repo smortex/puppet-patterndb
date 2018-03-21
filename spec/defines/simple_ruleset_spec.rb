@@ -89,7 +89,7 @@ describe 'patterndb::simple::ruleset' do
     }
     it { should contain_patterndb__parser('default') }
     it {
-      should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
+      should contain_concat('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
       should contain_concat__fragment('patterndb_simple_ruleset-myruleset-header').with_content(
         /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
       )
@@ -107,7 +107,7 @@ describe 'patterndb::simple::ruleset' do
     end
     it { should contain_patterndb__parser('default') }
     it {
-      should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
+      should contain_concat('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
       should contain_concat__fragment('patterndb_simple_ruleset-myruleset-header').with_content(
         /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
       )
@@ -135,7 +135,7 @@ describe 'patterndb::simple::ruleset' do
     end
     it { should contain_patterndb__parser('default') }
     it {
-      should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
+      should contain_concat('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'})
       should contain_concat('patterndb_simple_ruleset-myruleset').that_notifies(
         'Exec[patterndb::merge::default]'
       )
@@ -188,7 +188,7 @@ describe 'patterndb::simple::ruleset' do
     }
     it { should_not contain_patterndb__parser('default') }
     it { should contain_patterndb__parser('PARSER') }
-    it { should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/PARSER/myruleset.pdb'}) }
+    it { should contain_concat('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/PARSER/myruleset.pdb'}) }
     it { should contain_concat__fragment('patterndb_simple_ruleset-myruleset-header').with(
         { 'target' => 'patterndb_simple_ruleset-myruleset' }
       )
@@ -347,7 +347,7 @@ describe 'patterndb::simple::ruleset' do
     end
     it { should contain_patterndb__parser('default') }
     it {
-      should contain_file('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/123myruleset.pdb'})
+      should contain_concat('patterndb_simple_ruleset-myruleset').with({'path' => '/BASEDIR/etc/syslog-ng/patterndb.d/default/123myruleset.pdb'})
       should contain_concat__fragment('patterndb_simple_ruleset-myruleset-header').with_content(
         /<patterns>.*<pattern>P1<\/pattern>.*<\/patterns>/m
       )

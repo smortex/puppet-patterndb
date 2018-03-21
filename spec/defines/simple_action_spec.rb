@@ -38,7 +38,7 @@ describe 'patterndb::simple::action' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/Must pass rule/m)}
+    it { expect {should compile}.to raise_error(/rule/m)}
   end
   context "Simple invalid action with no message" do
     let :params do
@@ -48,7 +48,7 @@ describe 'patterndb::simple::action' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/Must pass message/m)}
+    it { expect {should compile}.to raise_error(/message/m)}
   end
   context "Simple invalid action with inexisting rule" do
     let :params do

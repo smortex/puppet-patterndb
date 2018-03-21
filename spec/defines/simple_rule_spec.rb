@@ -28,7 +28,7 @@ describe 'patterndb::simple::rule' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/Must pass patterns/m)}
+    it { expect {should compile}.to raise_error(/patterns/m)}
   end
   context "Simple invalid rule with no ruleset" do
     let :params do
@@ -38,7 +38,7 @@ describe 'patterndb::simple::rule' do
         }
       )
     end
-    it { expect {should compile}.to raise_error(/Must pass ruleset/m)}
+    it { expect {should compile}.to raise_error(/ruleset/m)}
   end
   context "Simple invalid rule with inexisting ruleset" do
     let :params do
@@ -70,7 +70,7 @@ describe 'patterndb::simple::rule' do
       )
     }
     it {
-      should contain_file('patterndb_simple_ruleset-myruleset').with(
+      should contain_concat('patterndb_simple_ruleset-myruleset').with(
         {
           :path => '/BASEDIR/etc/syslog-ng/patterndb.d/default/myruleset.pdb'
         }

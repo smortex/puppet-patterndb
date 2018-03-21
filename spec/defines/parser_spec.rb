@@ -7,6 +7,7 @@ describe 'patterndb::parser', :type => 'define' do
   let :title do
     'default'
   end
+  let(:pre_condition) { 'include patterndb' }
   context "Catchall" do
     it { should contain_class('Patterndb') }
     it { should contain_exec('patterndb::merge::default') }
@@ -51,7 +52,8 @@ describe 'patterndb::parser', :type => 'define' do
   end
   context "With syslog-ng module in class" do
     let :pre_condition do
-      'class { "patterndb": syslogng_modules => [ "foo","bar"] }'
+      [ 'class { "patterndb": syslogng_modules => [ "foo","bar"] }',
+      'Patterndb::Parser { syslogng_modules => [ "foo","bar"] }' ]
     end
     it {
       should contain_exec('patterndb::test::default').with(
