@@ -29,13 +29,15 @@ define patterndb::parser (
   })
   exec { "patterndb::merge::${name}":
     command     => "pdbtool merge -r --glob \\*.pdb -D ${::patterndb::pdb_dir}/${name} -p ${::patterndb::temp_dir}/patterndb/${name}.xml",
+    path        => $::path,
     logoutput   => true,
     refreshonly => true,
   }
 
   exec { "patterndb::test::${name}":
-    #command  => "/usr/bin/pdbtool --validate test ${::patterndb::temp_dir}/patterndb/${name}.xml $modules",
+    #command    => "/usr/bin/pdbtool --validate test ${::patterndb::temp_dir}/patterndb/${name}.xml $modules",
     command     => "pdbtool test ${::patterndb::temp_dir}/patterndb/${name}.xml ${modules}",
+    path        => $::path,
     logoutput   => true,
     refreshonly => true,
   }
@@ -43,6 +45,7 @@ define patterndb::parser (
   exec { "patterndb::deploy::${name}":
     command     => "cp ${::patterndb::temp_dir}/patterndb/${name}.xml ${::patterndb::base_dir}/var/lib/syslog-ng/patterndb/",
     logoutput   => true,
+    path        => $::path,
     refreshonly => true
   }
   if $test_before_deploy {
