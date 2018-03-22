@@ -1,3 +1,8 @@
+# 2018-03-22 Release 3.0.0
+
+* new major release
+* drop support for puppet < 4.9.0
+
 ## 2017-06-07 2.3.0-beta1
 
 * add support for polling hiera
