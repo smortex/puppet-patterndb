@@ -33,7 +33,10 @@ define patterndb::simple::ruleset (
   validate_re($pubdate, '^\d+-\d+-\d+$')
 
   if ! defined(Patterndb::Parser[$parser]) {
-    patterndb::parser { $parser: }
+    patterndb::parser { $parser:
+      test_before_deploy => $::patterndb::test_before_deploy,
+      syslogng_modules   => $::patterndb::syslogng_modules,
+    }
   }
 
   $pdb_file = "${patterndb::pdb_dir}/${parser}/${order}${name}.pdb"

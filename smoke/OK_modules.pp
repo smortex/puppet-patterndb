@@ -1,4 +1,7 @@
 #
+Exec {
+  path => '/usr/local/bin:/usr/bin:/bin'
+}
 class { 'patterndb':
   manage_package => false,
   base_dir => '/tmp/',

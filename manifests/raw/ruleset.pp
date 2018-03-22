@@ -20,7 +20,10 @@ define patterndb::raw::ruleset (
   }
 
   if ! defined(Patterndb::Parser[$parser]) {
-    patterndb::parser { $parser: }
+    patterndb::parser { $parser:
+      test_before_deploy => $::patterndb::test_before_deploy,
+      syslogng_modules   => $::patterndb::syslogng_modules,
+    }
   }
 
   if $ensure == 'directory' {

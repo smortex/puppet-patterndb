@@ -1,11 +1,14 @@
 #
+include ::patterndb
+Patterndb::Parser {
+  test_before_deploy => $::patterndb::test_before_deploy,
+  syslogng_modules   => $::patterndb::syslogng_modules,
+}
 define patterndb::parser (
-  $test_before_deploy = $::patterndb::test_before_deploy,
-  $syslogng_modules = $::patterndb::syslogng_modules
+  Boolean $test_before_deploy = true,
+  Array[String[1]] $syslogng_modules = [],
 ) {
-  if ! defined(Class['Patterndb']) {
-    include patterndb
-  }
+  include ::patterndb
   if empty($syslogng_modules) {
     $modules = ''
   } else {
@@ -26,7 +29,6 @@ define patterndb::parser (
   })
   exec { "patterndb::merge::${name}":
     command     => "pdbtool merge -r --glob \\*.pdb -D ${::patterndb::pdb_dir}/${name} -p ${::patterndb::temp_dir}/patterndb/${name}.xml",
-    path        => $::path,
     logoutput   => true,
     refreshonly => true,
   }
@@ -34,14 +36,12 @@ define patterndb::parser (
   exec { "patterndb::test::${name}":
     #command  => "/usr/bin/pdbtool --validate test ${::patterndb::temp_dir}/patterndb/${name}.xml $modules",
     command     => "pdbtool test ${::patterndb::temp_dir}/patterndb/${name}.xml ${modules}",
-    path        => $::path,
     logoutput   => true,
     refreshonly => true,
   }
 
   exec { "patterndb::deploy::${name}":
     command     => "cp ${::patterndb::temp_dir}/patterndb/${name}.xml ${::patterndb::base_dir}/var/lib/syslog-ng/patterndb/",
-    path        => $::path,
     logoutput   => true,
     refreshonly => true
   }

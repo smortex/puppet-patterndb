@@ -1,19 +1,14 @@
 #
 class patterndb (
-  $base_dir = $::patterndb::defaults::base_dir,
-  $temp_dir = $::patterndb::defaults::temp_dir,
-  $package_name = false,
-  $manage_package = true,
-  $syslogng_modules = [],
-  $use_hiera = false,
-  $_manage_top_dirs = true,
-  $test_before_deploy = true
-) inherits patterndb::defaults {
-
-  require stdlib
-  validate_bool($manage_package)
-  validate_bool($test_before_deploy)
-  validate_array($syslogng_modules)
+  String[1] $base_dir = '/',
+  String[1] $temp_dir = "${base_dir}/tmp/syslog-ng",
+  Variant[String[1],Boolean] $package_name = false,
+  Boolean $manage_package = true,
+  Array[String[1]] $syslogng_modules = [],
+  Boolean $use_hiera = false,
+  Boolean $_manage_top_dirs = true,
+  Boolean $test_before_deploy = true
+) {
 # package
   if $manage_package {
     if is_string($package_name) {
