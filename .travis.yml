@@ -25,16 +25,16 @@ rvm:
 
 env:
   matrix:
-    - PUPPET_GEM_VERSION="~> 4.0.0" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 4.5.0" FIXTURES_YML=.fixtures-old.yml
     - PUPPET_GEM_VERSION="~> 4.9.1" FIXTURES_YML=.fixtures-old.yml
     - PUPPET_GEM_VERSION="~> 4.10.10" FIXTURES_YML=.fixtures-old.yml
+    - PUPPET_GEM_VERSION="~> 5.0.0" FIXTURES_YML=.fixtures-old.yml
     - PUPPET_GEM_VERSION="~> 5.4.0" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 4.0.0" FIXTURES_YML=.fixtures.yml
-    - PUPPET_GEM_VERSION="~> 4.5.0" FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 5.5.0" FIXTURES_YML=.fixtures-old.yml
     - PUPPET_GEM_VERSION="~> 4.9.1" FIXTURES_YML=.fixtures.yml
     - PUPPET_GEM_VERSION="~> 4.10.10" FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 5.0.0" FIXTURES_YML=.fixtures.yml
     - PUPPET_GEM_VERSION="~> 5.4.0" FIXTURES_YML=.fixtures.yml
+    - PUPPET_GEM_VERSION="~> 5.5.0" FIXTURES_YML=.fixtures.yml
 matrix:
   fast_finish: true
 #  exclude:
