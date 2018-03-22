@@ -1,12 +1,9 @@
 language: ruby
 
-#bundler_args: --without development
-
 addons:
   apt:
     packages:
-      - syslog-ng
-      - puppet
+      - syslog-ng-core
 
 install:
   - bundle install
