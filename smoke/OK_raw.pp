@@ -2,7 +2,7 @@
 class { 'patterndb':
   manage_package => false,
   base_dir => '/tmp/',
-  syslogng_modules => ['tfgetent']
+  syslogng_modules => []
 }
 
 patterndb::raw::ruleset { 'raw':
