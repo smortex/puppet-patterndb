@@ -16,7 +16,7 @@ before_script:
 
 script:
   - bundle exec rake spec
-  - bundle exec ./smoke/test
+  - bundle exec ./smoke/test -d
 
 rvm:
   - 2.1.9
