@@ -5,7 +5,15 @@ require 'puppet-lint/tasks/puppet-lint'
 PuppetLint.configuration.fail_on_warnings
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_single_quote_string_with_variables')
-PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "smoke/*.pp", "pkg/**/**.pp"]
 PuppetLint.configuration.relative = true
+
+ignore_paths = ['vendor/**/*', 'spec/**/*', 'smoke/**/*', 'pkg/**/*']
+
+PuppetSyntax.exclude_paths = ignore_paths
+
+#PuppetLint.configuration.ignore_paths = ignore_paths
+PuppetLint::RakeTask.new :lint do |config|
+  config.ignore_paths = ignore_paths
+end
 
 task :default => [:spec, :lint]
