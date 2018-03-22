@@ -1,0 +1,11 @@
+---
+patterndb::base_dir: /
+patterndb::temp_dir: /tmp/syslog-ng
+patterndb::package_name: false
+patterndb::manage_package: true
+patterndb::syslogng_modules: []
+patterndb::use_hiera: false
+patterndb::_manage_top_dirs: true
+patterndb::test_before_deploy: &test_before_deploy true
+patterndb::parser::test_before_deploy: *test_before_deploy
+
