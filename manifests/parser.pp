@@ -4,6 +4,7 @@ Patterndb::Parser {
   test_before_deploy => $::patterndb::test_before_deploy,
   syslogng_modules   => $::patterndb::syslogng_modules,
 }
+#
 define patterndb::parser (
   Boolean $test_before_deploy = true,
   Array[String[1]] $syslogng_modules = [],
@@ -49,14 +50,14 @@ define patterndb::parser (
     refreshonly => true
   }
   if $test_before_deploy {
-    File["patterndb::file::${name}"] ~>
-    Exec["patterndb::merge::${name}"] ~>
-    Exec["patterndb::test::${name}"] ~>
-    Exec["patterndb::deploy::${name}"]
+    File["patterndb::file::${name}"]
+    ~> Exec["patterndb::merge::${name}"]
+    ~> Exec["patterndb::test::${name}"]
+    ~> Exec["patterndb::deploy::${name}"]
     } else {
-      File["patterndb::file::${name}"] ~>
-      Exec["patterndb::merge::${name}"] ~>
+      File["patterndb::file::${name}"]
+      ~> Exec["patterndb::merge::${name}"]
       # we won't 'pdbtool test' the merged file before deploying
-      Exec["patterndb::deploy::${name}"]
+      ~> Exec["patterndb::deploy::${name}"]
     }
 }
