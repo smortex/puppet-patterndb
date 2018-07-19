@@ -94,7 +94,7 @@ patterndb::parser { 'my_parser': }
 ### 3. define *rulesets* for each *parser*
 
 ```puppet
-patterndb::ruleset::simple { 'myservice':
+patterndb::simple::ruleset { 'myservice':
   parser   => 'my_parser',
   patterns => [ 'myservice-foo', 'myservice-bar' ],
   rules    => [ 
