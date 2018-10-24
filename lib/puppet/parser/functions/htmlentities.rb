@@ -3,22 +3,22 @@
 #
 
 module Puppet::Parser::Functions
-def self._htmlentities(str)
-  case str
-    when String
-      r_h = {
-        '>' => '&gt;',
-        '<' => '&lt;',
-        '&' => '&amp;',
-      }
-      r_h.sort.each do |k,v|
-        str = str.gsub(/#{k}/,v)
+  def self._htmlentities(str)
+    case str
+      when String
+        r_h = {
+          '>' => '&gt;',
+          '<' => '&lt;',
+          '&' => '&amp;',
+        }
+        r_h.sort.each do |k,v|
+          str = str.gsub(/#{k}/,v)
+        end
+        return str
+      else
+        return str
       end
-      return str
-    else
-      return str
-    end
-end
+  end
 
   newfunction(:htmlentities, :type => :rvalue, :doc => <<-EOS
 This escapes HTML characters. Currently supported: <>
