@@ -45,7 +45,7 @@ end
         :operatingsystem            => 'Debian',
         :osfamily                   => 'Debian',
 
-        :syslog_ng_package          => 'syslog-ng',
+        :syslog_ng_package          => 'syslog-ng-core',
     }),
 }
 

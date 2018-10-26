@@ -16,7 +16,7 @@ class patterndb (
     } else {
       case $::osfamily {
         'RedHat': { $real_package_name = 'syslog-ng' }
-        'Debian': { $real_package_name = 'syslog-ng' }
+        'Debian': { $real_package_name = 'syslog-ng-core' }
         default: { fail("unsupported osfamily: ${::osfamily}") }
       }
     }

@@ -56,7 +56,7 @@ Most of the concepts covered here are described in the [syslog-ng documentation]
 * A *pattern parser* is a function that matches strings and optionally returns a key-value pair (*macro* in *syslog-ng*) where the *value* contains the matching string, and the *key* is user-specified. *pattern parsers* are enclosed in `@`, e.g. `@ESTRING:mykey@`
 * An *example* is a sample *message* which should match one and only one *rule*. It contains the message itself, along with the *values* and *tags* the *rule* should extract.
 * A *correlation context* or *context* refers to a collection of *messages* that have been *matched* to belong together
-* An *action* is a new *event* or *message* that is being *triggered* by another *message* or *context* matching certain confitions. It contains the *message* itself, along with additional *tags* and *values* it should be associated with.
+* An *action* is a new *event* or *message* that is being *triggered* by another *message* or *context* matching certain conditions. It contains the *message* itself, along with additional *tags* and *values* it should be associated with.
 * A *value* is a key-value pair belonging to a *message*
 * A *tag* is a label belonging to a *message*
 
@@ -94,7 +94,7 @@ patterndb::parser { 'my_parser': }
 ### 3. define *rulesets* for each *parser*
 
 ```puppet
-patterndb::ruleset::simple { 'myservice':
+patterndb::simple::ruleset { 'myservice':
   parser   => 'my_parser',
   patterns => [ 'myservice-foo', 'myservice-bar' ],
   rules    => [ 
