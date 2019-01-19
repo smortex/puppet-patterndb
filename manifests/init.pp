@@ -20,7 +20,7 @@ class patterndb (
         default: { fail("unsupported osfamily: ${::osfamily}") }
       }
     }
-    ensure_resource ( 'package', $real_package_name, { 'ensure' => 'installed' })
+    ensure_packages ( $real_package_name, { 'ensure' => 'installed' })
   }
   ensure_resource ( 'file', $temp_dir, { ensure => directory } )
   if $_manage_top_dirs {
