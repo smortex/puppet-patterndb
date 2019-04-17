@@ -1,16 +1,20 @@
 require 'spec_helper'
 
 describe 'patterndb::simple::action' do
-  let :facts do {
-    :osfamily => 'RedHat',
-    :concat_basedir => '/tmp/concat-basedir'
-  } end
+  let :facts do
+    {
+      osfamily: 'RedHat',
+      concat_basedir: '/tmp/concat-basedir',
+    }
+  end
   let :title do
     'myaction'
   end
-  let :default_params do {
-    :rate => '1/60',
-  } end
+  let :default_params do
+    {
+      rate: '1/60',
+    }
+  end
   let :pre_condition do
     'class { "patterndb": base_dir => "/BASEDIR", }
     patterndb::simple::ruleset { "myruleset":
@@ -30,78 +34,70 @@ describe 'patterndb::simple::action' do
     }
     Exec { path => ["/bin","/usr/bin"] }'
   end
-  context "Simple invalid action with no rule" do
+
+  context 'Simple invalid action with no rule' do
     let :params do
       default_params.merge(
-        {
-          :message => {}
-        }
+        message: {},
       )
     end
-    it { expect {should compile}.to raise_error(/rule/m)}
+
+    it { expect { is_expected.to compile }.to raise_error(%r{rule}m) }
   end
-  context "Simple invalid action with no message" do
+  context 'Simple invalid action with no message' do
     let :params do
       default_params.merge(
-        {
-          :rule => "myrule"
-        }
+        rule: 'myrule',
       )
     end
-    it { expect {should compile}.to raise_error(/message/m)}
+
+    it { expect { is_expected.to compile }.to raise_error(%r{message}m) }
   end
-  context "Simple invalid action with inexisting rule" do
+  context 'Simple invalid action with inexisting rule' do
     let :params do
       default_params.merge(
-        {
-          :message => {},
-          :rule => 'this_rule_was_not_predeclared'
-        }
+        message: {},
+        rule: 'this_rule_was_not_predeclared',
       )
     end
-    it { expect {should compile}.to raise_error(/Failed while trying to define action.*for undeclared rule/m)}
+
+    it { expect { is_expected.to compile }.to raise_error(%r{Failed while trying to define action.*for undeclared rule}m) }
   end
-  context "Simple action" do
+  context 'Simple action' do
     let :params do
       default_params.merge(
-        {
-          :message => {
-            'values' => { 'a' => 'A' },
-            'tags'   => [ 't', 'T' ],
-          },
-          :rule => "myrule"
-        }
+        message: {
+          'values' => { 'a' => 'A' },
+          'tags' => ['t', 'T'],
+        },
+        rule: 'myrule',
       )
     end
-    it { 
-      should contain_patterndb__simple__ruleset('myruleset')
-      should contain_patterndb__simple__rule('myrule')
-      should contain_patterndb__simple__action('myaction').with(
-        {
-          :rule => 'myrule',
-        }
+
+    it {
+      is_expected.to contain_patterndb__simple__ruleset('myruleset')
+      is_expected.to contain_patterndb__simple__rule('myrule')
+      is_expected.to contain_patterndb__simple__action('myaction').with(
+        rule: 'myrule',
       )
     }
   end
-  context "Simple action for embedded rule" do
+  context 'Simple action for embedded rule' do
     let :params do
       default_params.merge(
-        {
-          :message => {
-            'values' => { 'a' => 'A' },
-            'tags'   => [ 't', 'T' ],
-          },
-          :rule => "myembeddedrule"
-        }
+        message: {
+          'values' => { 'a' => 'A' },
+          'tags' => ['t', 'T'],
+        },
+        rule: 'myembeddedrule',
       )
     end
-    it { 
-      should contain_patterndb__simple__ruleset('myruleset')
-      should contain_patterndb__simple__rule('myembeddedrule')
-      should contain_patterndb__simple__action('myaction').with(
-        {
-          :rule => 'myembeddedrule',
-        }
+
+    it {
+      is_expected.to contain_patterndb__simple__ruleset('myruleset')
+      is_expected.to contain_patterndb__simple__rule('myembeddedrule')
+      is_expected.to contain_patterndb__simple__action('myaction').with(
+        rule: 'myembeddedrule',
       )
     }
   end

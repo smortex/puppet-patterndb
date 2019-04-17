@@ -1,7 +1,7 @@
 #
 class { 'patterndb':
   manage_package => false,
-  base_dir => '/tmp/'
+  base_dir       => '/tmp/'
 }
 
 Exec {
@@ -9,18 +9,18 @@ Exec {
 }
 
 patterndb::simple::ruleset { 'ruleset-a':
-  id          => '99515b6c-2057-4232-b459-58ecaf2842bc',
-  patterns    => [ 'a' ],
-  pubdate     => '1985-01-01',
-  rules       => {
-    'id'      => 'MY_EMBEDDED_RULE_ID',
+  id       => '99515b6c-2057-4232-b459-58ecaf2842bc',
+  patterns => [ 'a' ],
+  pubdate  => '1985-01-01',
+  rules    => {
+    'id'       => 'MY_EMBEDDED_RULE_ID',
     'patterns' => 'abcde'
   }
 }
 
 patterndb::simple::action { 'myaction':
-  rule     => 'MY_EMBEDDED_RULE_ID',
-  message  => {
+  rule    => 'MY_EMBEDDED_RULE_ID',
+  message => {
     values => {
       'a'  => 'b'
     },
@@ -32,11 +32,11 @@ patterndb::simple::rule { 'rule-a':
   ruleset   => 'ruleset-a',
   patterns  => ['match something else like @ESTRING:this: @dude'],
   ruleclass => 'ruleclass-a',
-  examples => [
+  examples  => [
     {
-      program => 'a',
+      program      => 'a',
       test_message => 'match something else like me dude',
-      test_values => {
+      test_values  => {
         'this' => 'me'
       }
     }
@@ -45,7 +45,7 @@ patterndb::simple::rule { 'rule-a':
     {
       message => {
         inherit_properties => true,
-        values => {
+        values             => {
           'foo' => 'bar'
         },
       }
@@ -57,11 +57,11 @@ patterndb::simple::rule { 'rule-b':
   ruleset   => 'ruleset-a',
   patterns  => ['match even something else like @ESTRING:this: @dude'],
   ruleclass => 'ruleclass-b',
-  examples => [
+  examples  => [
     {
-      program => 'a',
+      program      => 'a',
       test_message => 'match even something else like me dude',
-      test_values => {
+      test_values  => {
         'this' => 'me'
       }
     }
@@ -69,8 +69,8 @@ patterndb::simple::rule { 'rule-b':
 }
 
 patterndb::simple::action { 'alert_him':
-  rule         => 'rule-b',
-  message      => {
+  rule    => 'rule-b',
+  message => {
     values     => {
       'colour' => 'green'
     }
@@ -78,8 +78,8 @@ patterndb::simple::action { 'alert_him':
 }
 
 patterndb::simple::action { 'alert_me':
-  rule         => 'rule-b',
-  message      => {
+  rule    => 'rule-b',
+  message => {
     values     => {
       'colour' => 'blue'
     }
