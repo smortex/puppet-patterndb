@@ -1,0 +1,69 @@
+---
+patterndb::ruleset:
+  kernel:
+    id: 7767405f-ba18-487f-83d9-b7d34a766e99
+    patterns:
+      - kernel
+    pubdate: '2013-11-21'
+    version: '4'
+patterndb::rule:
+  39bb586e-658e-4ec9-9b60-eb77302fe5db:
+    id: 39bb586e-658e-4ec9-9b60-eb77302fe5db
+    context_id: 'link-${krnacct.rsname}'
+    context_scope: program
+    patterns:
+      - '@ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ Link is @STRING:krnacct.status@'
+      - '@ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ NIC Link is @STRING:krnacct.status@'
+      - '@ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ NIC Copper Link is @STRING:krnacct.status@'
+      - '@ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ NIC Link is @STRING:krnacct.status@ @ANYSTRING:details@'
+    provider: me@example.com
+    ruleclass: system
+    ruleset: kernel
+    tags:
+      - krnacct
+    values:
+      krnacct.name: Linux
+      krnacct.rsclass: drivers
+      krnacct.rsid: '${tmp.drv}.${tmp.rsid}'
+      krnacct.rstype: net
+      krnacct.ver: '2.6'
+    examples:
+      - program: kernel
+        test_message: 'bnx2 0000:01:00.1: eth1: NIC Copper Link is Down'
+        test_values:
+          krnacct.rsid: 'bnx2.0000:01:00.1:'
+          krnacct.rsname: eth1
+          krnacct.rstype: net
+          krnacct.status: Down
+      - program: kernel
+        test_message: 'ixgbe 0000:81:00.0 em1: NIC Link is Down'
+        test_values:
+          krnacct.rsid: 'ixgbe.0000:81:00.0'
+          krnacct.rsname: em1
+          krnacct.rstype: net
+          krnacct.status: Down
+      - program: kernel
+        test_message: 'tg3 0000:01:00.1: eth1: Link is down'
+        test_values:
+          krnacct.rsid: 'tg3.0000:01:00.1:'
+          krnacct.rsname: eth1
+          krnacct.rstype: net
+          krnacct.status: down
+      - program: kernel
+        test_message: 'ixgbe 0000:81:00.0 em1: NIC Link is Up 1 Gbps, Flow Control: RX/TX'
+        test_values:
+          krnacct.rsid: 'ixgbe.0000:81:00.0'
+          krnacct.rsname: em1
+          krnacct.rstype: net
+          krnacct.status: Up
+patterndb::action:
+  Link_DOWN:
+    rule: 39bb586e-658e-4ec9-9b60-eb77302fe5db
+    condition: 'match("^(down|Down)$",value(krnacct.status))'
+    rate: "1/300"
+    message:
+      inherit_properties: TRUE
+      tags:
+        - f_to_email
+      values:
+        state: warning
