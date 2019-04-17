@@ -14,18 +14,20 @@ patterndb::simple::ruleset { 'yum':
     {
       id       => '0c579629-0359-4e17-af30-19cfc3bf2ef8',
       patterns => [
+        # lint:ignore:140chars
 # for package versions numbers and other characterse.g. my-best-app-4-2.noarch
         'Installed: @PCRE:tmp.package_name:(?:\w+-)+@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
         'Installed: @ESTRING:appacct.epoch::@@PCRE:tmp.package_name:(?:\w+-)+@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
 # for package versions with only numbers e.g. my-best-app-4-2.noarch
         'Installed: @PCRE:tmp.package_name:(?:\w+-)+(?!\d+\.)@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
         'Installed: @ESTRING:appacct.epoch::@@PCRE:tmp.package_name:(?:\w+-)+(?!\d+\.)@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
+        # lint:endignore
 #
       ],
       tags     => [ 'appacct' ],
       values   => {
 # the following removes the trailing dash
-        'appacct.rsname' => '$(substr "${tmp.package_name}" "0" "-1")',
+        'appacct.rsname' => '$(substr "${tmp.package_name}" "0" "-1")', # lint:ignore:single_quote_string_with_variables
 #
         'appacct.rstype' => 'install',
       },
@@ -70,16 +72,18 @@ patterndb::simple::ruleset { 'yum':
       id       => '347533ea-c8ab-41b3-a343-6d9204cc7680',
       patterns => [
 # for package versions numbers and other characterse.g. my-best-app-4-2.noarch
+        # lint:ignore:140chars
         'Updated: @PCRE:tmp.package_name:(?:\w+-)+@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
         'Updated: @ESTRING:appacct.epoch::@@PCRE:tmp.package_name:(?:\w+-)+@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
 # for package versions with only numbers e.g. my-best-app-4-2.noarch
         'Updated: @PCRE:tmp.package_name:(?:\w+-)+(?!\d+\.)@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
         'Updated: @ESTRING:appacct.epoch::@@PCRE:tmp.package_name:(?:\w+-)+(?!\d+\.)@@ESTRING:appacct.version:-@@PCRE:appacct.release:.*(?=\.)@.@ESTRING:appacct.arch:@',
+        # lint:endignore
 #
       ],
       tags     => [ 'appacct' ],
       values   => {
-        'appacct.rsname' => '$(substr "${tmp.package_name}" "0" "-1")',
+        'appacct.rsname' => '$(substr "${tmp.package_name}" "0" "-1")', # lint:ignore:single_quote_string_with_variables
         'appacct.rstype' => 'update',
       },
       examples => [

@@ -75,7 +75,7 @@ describe 'patterndb::simple::rule' do
       is_expected.to contain_concat__fragment('patterndb_simple_rule-myrule-header').with(
         target: 'patterndb_simple_ruleset-myruleset',
       ).with_content(
-        /<patterns>\s*<pattern>Time is an illusion. Lunchtime doubly so.<\/pattern>\s*<\/patterns>/m,
+        %r{<patterns>\s*<pattern>Time is an illusion. Lunchtime doubly so.</pattern>\s*</patterns>}m,
       )
     }
   end

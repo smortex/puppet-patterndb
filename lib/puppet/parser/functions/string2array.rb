@@ -15,11 +15,8 @@ an error
     end
 
     if arguments.length == 1
-      if arguments[0].is_a?(Array)
-        return arguments[0]
-      elsif arguments[0].is_a?(Hash)
-        raise(Puppet::Error, 'string2array(): `' + arguments[0].to_s + '` is neither a string nor an array')
-      end
+      return arguments[0] if arguments[0].is_a?(Array)
+      raise(Puppet::Error, 'string2array(): `' + arguments[0].to_s + '` is neither a string nor an array') if arguments[0].is_a?(Hash)
     end
 
     return arguments

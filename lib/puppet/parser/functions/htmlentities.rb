@@ -14,10 +14,8 @@ module Puppet::Parser::Functions
       r_h.sort.each do |k, v|
         str = str.gsub(%r{#{k}}, v)
       end
-      str
-    else
-      str
-      end
+    end
+    str
   end
 
   newfunction(:htmlentities, type: :rvalue, doc: <<-EOS

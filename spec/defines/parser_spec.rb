@@ -29,7 +29,7 @@ describe 'patterndb::parser', type: 'define' do
 
     it {
       is_expected.to contain_exec('patterndb::test::default').with(
-        'command' => /patterndb\/default\.xml $/m,
+        'command' => %r{patterndb/default\.xml $}m,
       )
     }
   end
@@ -42,7 +42,7 @@ describe 'patterndb::parser', type: 'define' do
 
     it {
       is_expected.to contain_exec('patterndb::test::default').with(
-        'command' => /patterndb\/default\.xml --module=foo --module=bar$/m,
+        'command' => %r{patterndb/default\.xml --module=foo --module=bar$}m,
       )
     }
   end
@@ -53,12 +53,12 @@ describe 'patterndb::parser', type: 'define' do
 
     it {
       is_expected.to contain_exec('patterndb::test::default').with(
-        'command' => /patterndb\/default\.xml $/m,
+        'command' => %r{patterndb/default\.xml $}m,
       )
     }
     it {
       is_expected.to contain_exec('patterndb::test::stage1').with(
-        'command' => /patterndb\/stage1\.xml $/m,
+        'command' => %r{patterndb/stage1\.xml $}m,
       )
     }
   end
@@ -70,7 +70,7 @@ describe 'patterndb::parser', type: 'define' do
 
     it {
       is_expected.to contain_exec('patterndb::test::default').with(
-        'command' => /patterndb\/default\.xml --module=foo --module=bar$/m,
+        'command' => %r{patterndb/default\.xml --module=foo --module=bar$}m,
       )
     }
   end
@@ -81,7 +81,7 @@ describe 'patterndb::parser', type: 'define' do
 
     it {
       is_expected.to contain_exec('patterndb::test::default').with(
-        'command' => /patterndb\/default\.xml $/m,
+        'command' => %r{patterndb\/default\.xml $}m,
       )
     }
   end

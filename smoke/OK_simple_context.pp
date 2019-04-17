@@ -13,7 +13,12 @@ patterndb::simple::ruleset { 'dhclient':
       id              => 'bd63010f-b339-4106-8ad3-4eb9764116b2',
       provider        => 'remi.ferrand@cc.in2p3.fr',
       patterns        => [ 'DHCPACK from @IPv4::@' ],
-      examples        => [ { program => 'dhclient', test_message => 'DHCPACK from 172.17.0.1 (xid=0x245abdb1)'} ],
+      examples        => [
+        {
+          'program'      => 'dhclient',
+          'test_message' => 'DHCPACK from 172.17.0.1 (xid=0x245abdb1)'
+        }
+      ],
       context_id      => 'plop',
       context_timeout => '34',
       context_scope   => 'program',

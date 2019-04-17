@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'patterndb', type: 'class' do
   on_supported_os.each do |os, facts|
     context "#{os} without package_name" do
-      let (:facts) { facts }
+      let :facts do
+        facts
+      end
 
       it { is_expected.to compile.with_all_deps }
       case facts[:osfamily]
@@ -14,7 +16,9 @@ describe 'patterndb', type: 'class' do
       end
     end
     context "#{os} OS without managing package" do
-      let (:facts) { facts }
+      let :facts do
+        facts
+      end
       let :params do
         { manage_package: false }
       end
@@ -32,7 +36,7 @@ describe 'patterndb', type: 'class' do
       { osfamily: 'UnsupportedOne' }
     end
 
-    it { expect { is_expected.to raise_error(Puppet::Error) } }
+    it { is_expected.to raise_error(Puppet::Error) }
   end
   context 'Any OS with a package name' do
     let :params do

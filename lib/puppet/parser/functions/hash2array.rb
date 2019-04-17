@@ -15,14 +15,9 @@ converted to arrays of alternating keys and values. Strings throw an error.
     end
 
     if arguments.length == 1
-      if arguments[0].is_a?(Array)
-        return arguments[0]
-      elsif arguments[0].is_a?(Hash)
-        result = [arguments[0]]
-        return result
-      else
-        raise(Puppet::Error, 'hash2array(): `' + arguments[0].to_s + '` is neither a hash nor an array')
-      end
+      return arguments[0] if arguments[0].is_a?(Array)
+      return [arguments[0]] if arguments[0].is_a?(Hash)
+      raise(Puppet::Error, 'hash2array(): `' + arguments[0].to_s + '` is neither a hash nor an array')
     end
 
     return arguments

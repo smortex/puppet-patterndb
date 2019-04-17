@@ -17,7 +17,7 @@ patterndb::simple::ruleset { 'getent':
       patterns  => [ 'protocol: @NUMBER:proto_num@' ],
       ruleclass => 'system',
       values    => {
-        'proto' => '$(getent protocols ${proto_num})'
+        'proto' => '$(getent protocols ${proto_num})' # lint:ignore:single_quote_string_with_variables
       },
       examples  => [
         {
