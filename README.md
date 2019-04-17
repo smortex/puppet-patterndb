@@ -163,6 +163,104 @@ This class will create `parser`, `ruleset`, `rule`, and `action` resources from 
 
 * `$prefix` The prefix of variable names in hiera. The default is `patterndb` which will create `patterndb::simple::rule` resources specified in hiera as `patterndb::rule`. If you use `foo`, it would pull `foo::rule` instead.
 
+#### For the impatient
+
+Here's a quick howto to generate a patterndb using yaml in puppet apply mode (don't run as root):
+
+```
+# get latest version
+> git clone https://github.com/ccin2p3/puppet-patterndb
+Cloning into 'puppet-patterndb'...
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 910 (delta 0), reused 5 (delta 0), pack-reused 903
+Receiving objects: 100% (910/910), 136.28 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (510/510), done.
+
+# build puppet module
+> cd puppet-patterndb/
+> puppet module build
+Notice: Building /home/ccin2p3/puppet-patterndb for release
+Module built: /home/ccin2p3/puppet-patterndb/pkg/ccin2p3-patterndb-3.0.0.tar.gz
+
+# install module and its deps
+> puppet module install pkg/ccin2p3-patterndb-3.0.0.tar.gz
+Notice: Preparing to install into /home/ccin2p3/.puppetlabs/etc/code/modules ...
+Notice: Created target directory /home/ccin2p3/.puppetlabs/etc/code/modules
+Notice: Downloading from https://forgeapi.puppet.com ...
+Notice: Installing -- do not interrupt ...
+/home/ccin2p3/.puppetlabs/etc/code/modules
+└─┬ ccin2p3-patterndb (v3.0.0)
+  ├─┬ puppetlabs-concat (v5.3.0)
+  │ └── puppetlabs-translate (v1.2.0)
+  └── puppetlabs-stdlib (v5.2.0)
+
+# configure hiera
+> cat >~/.puppetlabs/etc/puppet/hiera.yaml
+---
+:merge_behavior: deeper
+
+:backends:
+  - yaml
+  - eyaml
+
+:hierarchy:
+  - "default"
+
+:yaml:
+    :datadir: hieradata
+
+:eyaml:
+    :extension: 'yaml'
+
+# the smoke directory contains an example manifest and hiera file
+> cd smoke
+> ls OK_hiera.pp
+OK_hiera.pp
+> ls hieradata/
+default.yaml
+
+# generate the patterndb from smoke/hieradata/default.yaml
+> puppet apply OK_hiera.pp
+Notice: Compiled catalog for node42.example.com in environment production in 0.98 seconds
+Notice: /Stage[main]/Patterndb/File[/tmp/syslog-ng]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//etc]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//var]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//var/lib]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//etc/syslog-ng]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//var/lib/syslog-ng]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//var/lib/syslog-ng/patterndb]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp//etc/syslog-ng/patterndb.d]/ensure: created
+Notice: /Stage[main]/Patterndb/File[/tmp/etc/syslog-ng/patterndb.d/README]/ensure: defined content as '{md5}453a118a8bc1a39e8386245314a599a5'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/File[/tmp//etc/syslog-ng/patterndb.d/default]/ensure: created
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/File[/tmp/syslog-ng/patterndb]/ensure: created
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/File[patterndb::file::default]/ensure: created
+Notice: /Stage[main]/Patterndb::Hiera/Patterndb::Simple::Ruleset[kernel]/Concat[patterndb_simple_ruleset-kernel]/File[/tmp//etc/syslog-ng/patterndb.d/default/kernel.pdb]/ensure: defined content as '{md5}93a8a1e73b3cd352a221eb8aa743c7e2'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::merge::default]: Triggered 'refresh' from 2 events
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::test::default]/returns: Testing message: program='kernel' message='ixgbe 0000:81:00.0 em1: NIC Link is Up 1 Gbps, Flow Control: RX/TX'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::test::default]/returns: Testing message: program='kernel' message='tg3 0000:01:00.1: eth1: Link is down'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::test::default]/returns: Testing message: program='kernel' message='ixgbe 0000:81:00.0 em1: NIC Link is Down'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::test::default]/returns: Testing message: program='kernel' message='bnx2 0000:01:00.1: eth1: NIC Copper Link is Down'
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::test::default]: Triggered 'refresh' from 1events
+Notice: /Stage[main]/Main/Patterndb::Parser[default]/Exec[patterndb::deploy::default]: Triggered 'refresh' from1 events
+Notice: Applied catalog in 1.33 seconds
+
+# here's the individual rulesets
+> find /tmp/etc/syslog-ng/
+/tmp/etc/syslog-ng/
+/tmp/etc/syslog-ng/patterndb.d
+/tmp/etc/syslog-ng/patterndb.d/default
+/tmp/etc/syslog-ng/patterndb.d/default/kernel.pdb
+/tmp/etc/syslog-ng/patterndb.d/README
+
+# here's the resulting merged patterndb
+> find /tmp/syslog-ng/
+/tmp/syslog-ng/
+/tmp/syslog-ng/patterndb
+/tmp/syslog-ng/patterndb/default.xml
+```
+
 ### Defined Type: patterndb::parser
 
 If using the defaults, and only one *pattern parser*, you probably won't need to define this resource, as it will get automatically created for you when defining a *ruleset*.
