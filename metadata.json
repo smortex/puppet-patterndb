@@ -7,17 +7,16 @@
   "source": "git://github.com/ccin2p3/puppet-patterndb.git",
   "project_page": "https://github.com/ccin2p3/puppet-patterndb",
   "issues_url": "https://github.com/ccin2p3/puppet-patterndb/issues",
-  "description": "Module for managing patterndb (syslog-ng) configuration files on Linux",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.5.0"},
-    {"name":"puppetlabs/concat","version_requirement":">= 1.2.0"}
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.5.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.2.0"
+    }
   ],
-	"requirements": [
-		{
-			"name": "puppet",
-			"version_requirement": ">=4.9.0 <6.0.0"
-		}
-	],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat"
@@ -25,5 +24,15 @@
     {
       "operatingsystem": "Debian"
     }
-  ]
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=4.9.0 <6.0.0"
+    }
+  ],
+  "description": "Module for managing patterndb (syslog-ng) configuration files on Linux",
+  "pdk-version": "1.9.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates",
+  "template-ref": "1.9.0-0-g7281db5"
 }

@@ -1,96 +1,42 @@
 ---
 stages:
-  - test_2.4.1
-  - test_2.1.9
+  - syntax
+  - unit
+
+cache:
+  paths:
+    - vendor/bundle
 
 before_script:
   - bundle -v
   - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
+  - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
-  - bundle install --without system_tests
-  - bundle exec puppet --version
-  - bundle exec puppet module build
-  - bundle exec puppet module install pkg/*.tar.gz
-  - apt-get update
-  - apt-get install syslog-ng -y
-  - syslog-ng --version
+  - bundle install --without system_tests --path vendor/bundle --jobs $(nproc)
 
-rubocop-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  allow_failure: true
+parallel_spec-Ruby 2.1.9-Puppet ~> 4.0:
+  stage: unit
+  image: ruby:2.1.9
   script:
-    - bundle exec rake rubocop
-
-syntax-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  script:
-    - bundle exec rake syntax lint
-
-metadata-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
+    - bundle exec rake parallel_spec
   variables:
-    PUPPET_GEM_VERSION: ~> 5.0
-    CHECK: spec
-  script:
-    - bundle update
-    - bundle exec rake $CHECK
+    PUPPET_GEM_VERSION: '~> 4.0'
+    RUBYGEMS_VERSION: '2.7.8'
 
-smoke-puppet-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
+syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop-Ruby 2.4.4-Puppet ~> 5.5:
+  stage: syntax
+  image: ruby:2.4.4
+  script:
+    - bundle exec rake syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
   variables:
-    PUPPET_GEM_VERSION: ~> 5.0
-  script:
-    - bundle update
-    - bundle exec ./smoke/test
+    PUPPET_GEM_VERSION: '~> 5.5'
 
-rubocop-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  allow_failure: true
+parallel_spec-Ruby 2.4.4-Puppet ~> 5.5:
+  stage: unit
+  image: ruby:2.4.4
   script:
-    - bundle exec rake rubocop
-
-syntax-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  script:
-    - bundle exec rake syntax lint
-
-metadata-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
+    - bundle exec rake parallel_spec
   variables:
-    PUPPET_GEM_VERSION: ~> 4.0
-    CHECK: spec
-  script:
-    - bundle update
-    - bundle exec rake $CHECK
-
-smoke-puppet-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  variables:
-    PUPPET_GEM_VERSION: ~> 4.0
-  script:
-    - bundle update
-    - bundle exec ./smoke/test
+    PUPPET_GEM_VERSION: '~> 5.5'
 
