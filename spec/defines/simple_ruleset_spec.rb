@@ -294,11 +294,11 @@ describe 'patterndb::simple::ruleset' do
       ).with_content(
         %r{<value name='KEY_FOO'>VAL_FOO</value>},
       ).with_content(
-        %r{/<value name='KEY_BAZ'>VAL_BAZ</value>},
+        %r{<value name='KEY_BAZ'>VAL_BAZ</value>},
       ).with_content(
-        %r{/<tag>TAG_FOO</tag>},
+        %r{<tag>TAG_FOO</tag>},
       ).with_content(
-        %r{/<tag>TAG_BAR</tag>},
+        %r{<tag>TAG_BAR</tag>},
       ).with_content(
         %r{context-id='CTX_FOO'},
       ).with_content(

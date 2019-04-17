@@ -2,16 +2,27 @@
 dist: trusty
 language: ruby
 cache: bundler
+addons:
+  apt:
+    packages:
+      - syslog-ng-core
 before_install:
   - bundle -v
   - rm -f Gemfile.lock
   - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
+install:
+  - echo 'gem "pdk", "~>1.10.0"'>>Gemfile
+  - bundle install
+  - bundle exec pdk build
+  - bundle exec puppet module install pkg/*.tar.gz
 script:
   - 'bundle exec rake $CHECK'
+  - 'bundle exec ./smoke/test -d'
 bundler_args: --without system_tests
 rvm:
+  - 2.4.5
   - 2.5.3
 stages:
   - static
@@ -24,14 +35,14 @@ matrix:
   fast_finish: true
   include:
     -
-      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint" PUPPET_GEM_VERSION="~> 5.0"
       stage: static
     -
-      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
+      env: PUPPET_GEM_VERSION="~> 4.0" CHECK=parallel_spec
       rvm: 2.4.5
       stage: spec
     -
-      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
+      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
       rvm: 2.5.3
       stage: spec
     -
