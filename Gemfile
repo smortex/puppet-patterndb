@@ -68,5 +68,4 @@ extra_gemfiles.each do |gemfile|
     eval(File.read(gemfile), binding)
   end
 end
-gem 'rspec-puppet-facts', :require => false
 # vim: syntax=ruby
