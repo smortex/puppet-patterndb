@@ -17,7 +17,7 @@
 <% if ! @values.empty? -%>
 				<values>
 <% Hash[@values].sort.each do |k,v| -%>
-					<value name='<%= k %>'><%= scope.function_htmlentities([v]) %></value>
+					<value name='<%= k %>'><%= scope.call_function('htmlentities', [v]) %></value>
 <% end -%>
 				</values>
 <% end -%>
@@ -32,11 +32,11 @@
 				<examples>
 <% @examples_a.each do |example| -%>
 					<example>
-						<test_message program="<%= example['program'] -%>"><%= scope.function_htmlentities([example['test_message']]) -%></test_message>
+						<test_message program="<%= example['program'] -%>"><%= scope.call_function('htmlentities', [example['test_message']]) -%></test_message>
 <% if example['test_values'] -%>
 						<test_values>
 <% Hash[example['test_values']].sort.each do |k,v| -%>
-							<test_value name='<%=k%>'><%=scope.function_htmlentities([v])%></test_value>
+							<test_value name='<%=k%>'><%=scope.call_function('htmlentities', [v])%></test_value>
 <% end -%>
 						</test_values>
 <% end -%>
