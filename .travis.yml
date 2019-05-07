@@ -12,9 +12,9 @@ before_install:
   - gem --version
   - bundle -v
 install:
-  - echo 'gem "pdk", "~>1.9.0"'>>Gemfile
+  - '[ "${USE_PDK:-1}" == 1 ] && echo gem \"pdk\", \"\~\>1.9.0\">>Gemfile || :'
   - bundle install
-  - bundle exec pdk build
+  - '[ "${USE_PDK:-1}" == 1 ] && bundle exec pdk build || bundle exec puppet module build'
   - bundle exec puppet module install pkg/*.tar.gz
 script:
   - 'bundle exec rake $CHECK'
@@ -36,15 +36,15 @@ matrix:
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
       stage: static
     -
-      env: PUPPET_GEM_VERSION="~> 4.10" CHECK=parallel_spec
+      env: PUPPET_GEM_VERSION="~> 4.10" CHECK=parallel_spec USE_PDK=0
       rvm: 2.4.1
       stage: spec
     -
-      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
+      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec USE_PDK=1
       rvm: 2.5.3
       stage: spec
     -
-      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
+      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec USE_PDK=1
       rvm: 2.5.3
       stage: spec
     -
