@@ -1,47 +1,67 @@
+---
 language: ruby
-
+cache: bundler
 addons:
   apt:
     packages:
       - syslog-ng-core
-
+before_install:
+  - bundle -v
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
+  - gem --version
+  - bundle -v
 install:
+  - '[ "${USE_PDK:-1}" == 1 ] && echo gem \"pdk\", \"\~\>1.9.0\">>Gemfile || :'
   - bundle install
-
-before_script:
-  - bundle install
-  - bundle exec puppet --version
-  - bundle exec puppet module build
+  - '[ "${USE_PDK:-1}" == 1 ] && bundle exec pdk build || bundle exec puppet module build'
   - bundle exec puppet module install pkg/*.tar.gz
-
 script:
-  - bundle exec rake spec
-  - bundle exec ./smoke/test -d
-
+  - 'bundle exec rake $CHECK'
+  - 'bundle exec ./smoke/test -d'
+bundler_args: --without system_tests
 rvm:
-  - 2.1.9
   - 2.3.4
-  - 2.4.1
-
-env:
-  matrix:
-    - PUPPET_GEM_VERSION="~> 4.9.1" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 4" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 5.4.0" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=.fixtures-old.yml
-    - PUPPET_GEM_VERSION="~> 4.9.1" FIXTURES_YML=.fixtures.yml
-    - PUPPET_GEM_VERSION="~> 4" FIXTURES_YML=.fixtures.yml
-    - PUPPET_GEM_VERSION="~> 5.4.0" FIXTURES_YML=.fixtures.yml
-    - PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=.fixtures.yml
+stages:
+  - static
+  - spec
+  - acceptance
+  -
+    if: tag =~ ^v\d
+    name: deploy
 matrix:
   fast_finish: true
-#  exclude:
-#    - rvm: 1.8.7
-#      env: PUPPET_GEM_VERSION="~> 3.2.0"
-
+  include:
+    -
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
+      stage: static
+    -
+      env: PUPPET_GEM_VERSION="~> 4.10" CHECK=parallel_spec USE_PDK=0
+      rvm: 2.4.1
+      stage: spec
+    -
+      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec USE_PDK=1
+      rvm: 2.5.3
+      stage: spec
+    -
+      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec USE_PDK=1
+      rvm: 2.5.3
+      stage: spec
+    -
+      env: DEPLOY_TO_FORGE=yes
+      stage: deploy
+branches:
+  only:
+    - master
+    - /^v\d/
 notifications:
-    email:
-      recipients:
-        - wernli@in2p3.fr
-      on_success: change
-      on_failure: always
+  email: false
+deploy:
+  provider: puppetforge
+  user: puppet
+  password:
+    secure: ""
+  on:
+    tags: true
+    all_branches: true
+    condition: "$DEPLOY_TO_FORGE = yes"

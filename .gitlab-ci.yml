@@ -1,96 +1,83 @@
 ---
 stages:
-  - test_2.4.1
-  - test_2.1.9
+  - syntax
+  - unit
+  - smoke
+
+cache:
+  paths:
+    - vendor/bundle
 
 before_script:
   - bundle -v
   - rm Gemfile.lock || true
-  - gem update --system
-  - gem update bundler
+  - gem update --system $RUBYGEMS_VERSION
   - gem --version
   - bundle -v
-  - bundle install --without system_tests
-  - bundle exec puppet --version
-  - bundle exec puppet module build
-  - bundle exec puppet module install pkg/*.tar.gz
-  - apt-get update
-  - apt-get install syslog-ng -y
-  - syslog-ng --version
+  - bundle install --without system_tests --path vendor/bundle --jobs $(nproc)
 
-rubocop-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  allow_failure: true
+syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop-Ruby 2.5.3-Puppet ~> 5:
+  stage: syntax
+  image: ruby:2.5.3
   script:
-    - bundle exec rake rubocop
-
-syntax-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  script:
-    - bundle exec rake syntax lint
-
-metadata-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
+    - bundle exec rake syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
   variables:
-    PUPPET_GEM_VERSION: ~> 5.0
-    CHECK: spec
-  script:
-    - bundle update
-    - bundle exec rake $CHECK
+    PUPPET_GEM_VERSION: '~> 6'
 
-smoke-puppet-2.4.1:
-  stage: test_2.4.1
-  image: ruby:2.4.1
+smoke syslog-ng puppet 5:
+  stage: smoke
+  image: ruby:2.5.3
   variables:
-    PUPPET_GEM_VERSION: ~> 5.0
+    PUPPET_GEM_VERSION: '~> 5'
   script:
-    - bundle update
+    - apt-get update
+    - apt-get install syslog-ng -y
+    - syslog-ng --version
+    - rm Gemfile.lock
+    - echo 'gem "pdk", "~>1.10.0"'>>Gemfile
+    - bundle install --without system_tests --path vendor/bundle --jobs $(nproc)
+    - bundle exec puppet --version
+    - bundle exec pdk build
+    - bundle exec puppet module install pkg/*.tar.gz
     - bundle exec ./smoke/test
 
-rubocop-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
+smoke syslog-ng latest:
+  stage: smoke
   allow_failure: true
+  image: 
+    name: balabit/syslog-ng:latest
+    entrypoint: [""]
+  before_script: []
   script:
-    - bundle exec rake rubocop
-
-syntax-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  script:
-    - bundle exec rake syntax lint
-
-metadata-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  script:
-    - bundle exec rake metadata_lint
-
-rspec-puppet-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  variables:
-    PUPPET_GEM_VERSION: ~> 4.0
-    CHECK: spec
-  script:
-    - bundle update
-    - bundle exec rake $CHECK
-
-smoke-puppet-2.1.9:
-  stage: test_2.1.9
-  image: ruby:2.1.9
-  variables:
-    PUPPET_GEM_VERSION: ~> 4.0
-  script:
-    - bundle update
+    - 'apt update || :'
+    - apt install ruby bundler -y
+    - bundle install --without system_tests
+    - bundle exec puppet --version
+    - bundle exec pdk build
+    - bundle exec pdk module install pkg/*.tar.gz
     - bundle exec ./smoke/test
+
+parallel_spec-Ruby 2.5.3-Puppet ~> 6:
+  stage: unit
+  image: ruby:2.5.3
+  script:
+    - bundle exec rake parallel_spec
+  variables:
+    PUPPET_GEM_VERSION: '~> 6'
+
+parallel_spec-Ruby 2.5.3-Puppet ~> 5:
+  stage: unit
+  image: ruby:2.5.3
+  script:
+    - bundle exec rake parallel_spec
+  variables:
+    PUPPET_GEM_VERSION: '~> 5'
+
+parallel_spec-Ruby 2.4.5-Puppet ~> 4:
+  stage: unit
+  image: ruby:2.4.5
+  script:
+    - bundle exec rake parallel_spec
+  variables:
+    PUPPET_GEM_VERSION: '~> 4'
 

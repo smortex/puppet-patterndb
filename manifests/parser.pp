@@ -1,19 +1,18 @@
 #
-include ::patterndb
-Patterndb::Parser {
-  test_before_deploy => $::patterndb::test_before_deploy,
-  syslogng_modules   => $::patterndb::syslogng_modules,
-}
-#
 define patterndb::parser (
-  Boolean $test_before_deploy = true,
-  Array[String[1]] $syslogng_modules = [],
+  Optional[Boolean] $test_before_deploy = undef,
+  Optional[Array[String[1]]] $syslogng_modules = undef,
 ) {
   include ::patterndb
-  if empty($syslogng_modules) {
+  if $syslogng_modules =~ Undef {
+    $_modules = $::patterndb::syslogng_modules
+  } else {
+    $_modules = $syslogng_modules
+  }
+  if empty($_modules) {
     $modules = ''
   } else {
-    $tmp = join($syslogng_modules,' --module=')
+    $tmp = join($_modules,' --module=')
     $modules = "--module=${tmp}"
   }
   ensure_resource('file', "${::patterndb::pdb_dir}/${name}", {
@@ -49,7 +48,12 @@ define patterndb::parser (
     path        => $::path,
     refreshonly => true
   }
-  if $test_before_deploy {
+  if $test_before_deploy =~ Undef {
+    $_test_before_deploy = $::patterndb::test_before_deploy
+  } else {
+    $_test_before_deploy = $test_before_deploy
+  }
+  if $_test_before_deploy {
     File["patterndb::file::${name}"]
     ~> Exec["patterndb::merge::${name}"]
     ~> Exec["patterndb::test::${name}"]

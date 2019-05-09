@@ -1,42 +1,48 @@
 require 'spec_helper'
 
-oses_specs = @oses_specs
+describe 'patterndb', type: 'class' do
+  on_supported_os.each do |os, facts|
+    context "#{os} without package_name" do
+      let :facts do
+        facts
+      end
 
-describe 'patterndb', :type => 'class' do
-  oses_specs.each do |osname, specs|
-    context "#{osname} OS without package_name" do
-      let :facts do {
-          :osfamily        => specs[:osfamily],
-          :operatingsystem => specs[:operatingsystem]
-      }
+      it { is_expected.to compile.with_all_deps }
+      case facts[:osfamily]
+      when 'Debian'
+        it { is_expected.to contain_package('syslog-ng-core') }
+      when 'RedHat'
+        it { is_expected.to contain_package('syslog-ng') }
       end
-      it {
-        should contain_package(specs[:syslog_ng_package])
-      }
     end
-    context "#{osname} OS without managing package" do
+    context "#{os} OS without managing package" do
+      let :facts do
+        facts
+      end
       let :params do
-        { :manage_package => false }
+        { manage_package: false }
       end
-      it {
-        should_not contain_package(specs[:syslog_ng_package])
-      }
+
+      case facts[:osfamily]
+      when 'Debian'
+        it { is_expected.not_to contain_package('syslog-ng-core') }
+      when 'RedHat'
+        it { is_expected.not_to contain_package('syslog-ng') }
+      end
     end
   end
-  context "Unsupported OS without package_name" do
+  context 'Unsupported OS without package_name' do
     let :facts do
-      { :osfamily => 'UnsupportedOne' }
+      { osfamily: 'UnsupportedOne' }
     end
-    it {
-      expect {should raise_error(Puppet::Error)}
-    }
+
+    it { is_expected.to raise_error(Puppet::Error) }
   end
-  context "Any OS with a package name" do
+  context 'Any OS with a package name' do
     let :params do
-      { :package_name => 'othersyslogngpackagename' }
+      { package_name: 'othersyslogngpackagename' }
     end
-    it {
-      should contain_package('othersyslogngpackagename')
-    }
+
+    it { is_expected.to contain_package('othersyslogngpackagename') }
   end
 end

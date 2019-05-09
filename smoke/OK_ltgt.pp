@@ -1,8 +1,8 @@
 #
 class { 'patterndb':
-  base_dir       => '/tmp/',
-  manage_package => false,
-  syslogng_modules   => [],
+  base_dir         => '/tmp/',
+  manage_package   => false,
+  syslogng_modules => [],
 }
 
 Patterndb::Simple::Rule  {
@@ -10,23 +10,23 @@ Patterndb::Simple::Rule  {
 }
 
 patterndb::simple::ruleset { 'a':
-  id => 'a',
+  id       => 'a',
   patterns => [ 'a' ],
-  pubdate => '1985-01-01',
-  rules => [
+  pubdate  => '1985-01-01',
+  rules    => [
     {
       id        => 'b',
       patterns  => ['ma<>tch @ESTRING:this: @dude'],
       ruleclass => 'b',
       values    => {
-        'foo'   => 1,
-        'bar'   => 4,
+        'foo' => 1,
+        'bar' => 4,
       },
-      examples => [
+      examples  => [
         {
-          program => 'a',
+          program      => 'a',
           test_message => 'ma<>tch me dude',
-          test_values => {
+          test_values  => {
             'this' => 'me'
           }
         }

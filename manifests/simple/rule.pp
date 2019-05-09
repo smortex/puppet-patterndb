@@ -1,6 +1,6 @@
 # default values are being ignored for now
 define patterndb::simple::rule (
-  $patterns,
+  Variant[String, Array[String]] $patterns,
   $ruleset,
   $id = $title,
   $provider = 'puppet',
