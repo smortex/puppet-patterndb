@@ -2,7 +2,7 @@
 
 [ ! -d "./smoke" ] && { echo "No tests to run"; exit 0; }
 
-OPTS="--detailed-exitcodes"
+OPTS="--detailed-exitcodes --modulepath spec/fixtures/modules"
 DEBUG=0
 while [ -n "${@:-}" ]; do
 	case $1 in

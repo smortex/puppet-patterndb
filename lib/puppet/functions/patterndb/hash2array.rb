@@ -1,15 +1,11 @@
 #
 # hash2array.rb
 #
-
-module Puppet::Parser::Functions
-  newfunction(:hash2array, :type => :rvalue, :doc => <<-EOS
-This converts a hash to an array containing that hash. Empty argument
-lists are converted to an empty array. Arrays are left untouched. Hashes are
-converted to arrays of alternating keys and values. Strings throw an error.
-    EOS
-  ) do |arguments|
-
+# This converts a hash to an array containing that hash. Empty argument
+# lists are converted to an empty array. Arrays are left untouched. Hashes are
+# converted to arrays of alternating keys and values. Strings throw an error.
+Puppet::Functions.create_function(:'patterndb::hash2array') do
+  def hash2array(*arguments)
     if arguments.empty?
         return []
     end

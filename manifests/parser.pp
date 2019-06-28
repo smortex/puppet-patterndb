@@ -1,12 +1,7 @@
 #
-include ::patterndb
-Patterndb::Parser {
-  test_before_deploy => $::patterndb::test_before_deploy,
-  syslogng_modules   => $::patterndb::syslogng_modules,
-}
 define patterndb::parser (
-  Boolean $test_before_deploy = true,
-  Array[String[1]] $syslogng_modules = [],
+  Boolean $test_before_deploy = $::patterndb::test_before_deploy,
+  Array[String[1]] $syslogng_modules = $::patterndb::syslogng_modules,
 ) {
   include ::patterndb
   if empty($syslogng_modules) {

@@ -1,5 +1,5 @@
-module Puppet::Parser::Functions
-  newfunction(:patterndb_simple_action) do |args|
+Puppet::Functions.create_function(:'patterndb::patterndb_simple_action') do
+  def patterndb_simple_action(*args)
     id = 0
     actions = args[0]
     rule_id = args[1]
@@ -11,7 +11,7 @@ module Puppet::Parser::Functions
       action['rule'] = rule_id
       action['rule_order'] = order
       Puppet::Parser::Functions.function(:create_resources)
-      function_create_resources(['patterndb::simple::action', { action_id => action} ])
+      call_function('create_resources', 'patterndb::simple::action', { action_id => action})
       id = id + 1
     end
   end

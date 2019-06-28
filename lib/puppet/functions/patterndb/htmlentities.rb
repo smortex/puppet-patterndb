@@ -1,9 +1,10 @@
 #
 # htmlentities.rb
 #
-
-def _htmlentities(str)
-  case str
+# This escapes HTML characters. Currently supported: <>
+Puppet::Functions.create_function(:'patterndb::htmlentities') do
+  def _htmlentities(str)
+    case str
     when String
       r_h = {
         '>' => '&gt;',
@@ -17,14 +18,9 @@ def _htmlentities(str)
     else
       return str
     end
-end
+  end
 
-module Puppet::Parser::Functions
-  newfunction(:htmlentities, :type => :rvalue, :doc => <<-EOS
-This escapes HTML characters. Currently supported: <>
-    EOS
-  ) do |arguments|
-
+  def htmlentities(*arguments)
     if arguments.empty?
         return []
     end
