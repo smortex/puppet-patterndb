@@ -1,15 +1,11 @@
 #
 # string2array.rb
 #
-
-module Puppet::Parser::Functions
-  newfunction(:string2array, type: :rvalue, doc: <<-EOS
-This converts a string to an array containing that single element. Empty argument
-lists are converted to an empty array. Arrays are left untouched. Hashes throw
-an error
-    EOS
-             ) do |arguments|
-
+# This converts a string to an array containing that single element. Empty argument
+# lists are converted to an empty array. Arrays are left untouched. Hashes throw
+# an error
+Puppet::Functions.create_function(:'patterndb::string2array') do
+  def string2array(*arguments)
     if arguments.empty?
       return []
     end

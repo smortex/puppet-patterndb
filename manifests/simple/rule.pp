@@ -26,16 +26,16 @@ define patterndb::simple::rule (
     fail('context_timeout must be integer(ish)')
   }
   validate_string($context_scope)
-  $patterns_sanitized = htmlentities($patterns)
-  $patterns_a = string2array($patterns_sanitized)
-  $urls_a = string2array($urls)
-  $examples_a = string2array($examples)
-  $tags_a = string2array($tags)
-  $actions_a = string2array($actions)
+  $patterns_sanitized = patterndb::htmlentities($patterns)
+  $patterns_a = patterndb::string2array($patterns_sanitized)
+  $urls_a = patterndb::string2array($urls)
+  $examples_a = patterndb::string2array($examples)
+  $tags_a = patterndb::string2array($tags)
+  $actions_a = patterndb::string2array($actions)
   validate_hash($values)
 
 # validate sample messages
-  patterndb_simple_example ( $examples_a, $id )
+  patterndb::patterndb_simple_example ( $examples_a, $id )
   if (! $_embedded) { # we were defined outside the ruleset
     if (! defined(Patterndb::Simple::Ruleset[$ruleset])) {
       fail("Failed while trying to define rule `${title}` for undeclared ruleset `${ruleset}`")
@@ -48,7 +48,7 @@ define patterndb::simple::rule (
     order   => "002-${order}-${title}-001",
   }
   # import embedded actions
-  patterndb_simple_action ( $actions_a, $id, $order )
+  patterndb::patterndb_simple_action ( $actions_a, $id, $order )
   # footer
   concat::fragment { "patterndb_simple_rule-${title}-footer":
     target  => "patterndb_simple_ruleset-${ruleset}",

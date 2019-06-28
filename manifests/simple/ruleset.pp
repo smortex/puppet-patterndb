@@ -15,8 +15,8 @@ define patterndb::simple::ruleset (
     include patterndb
   }
 
-  $patterns_a = string2array($patterns)
-  $rules_a = hash2array($rules)
+  $patterns_a = patterndb::string2array($patterns)
+  $rules_a = patterndb::hash2array($rules)
   validate_string($order)
   validate_string($url)
   validate_string($parser)
@@ -59,6 +59,6 @@ define patterndb::simple::ruleset (
 
   if (! empty($rules)) { # monolithic ruleset definition
     # import embedded rules
-    patterndb_simple_rule ($name, $rules_a)
+    patterndb::patterndb_simple_rule ($name, $rules_a)
   }
 }

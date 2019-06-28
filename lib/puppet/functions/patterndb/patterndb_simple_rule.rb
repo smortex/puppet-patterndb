@@ -1,5 +1,5 @@
-module Puppet::Parser::Functions
-  newfunction(:patterndb_simple_rule) do |args|
+Puppet::Functions.create_function(:'patterndb::patterndb_simple_rule') do
+  def patterndb_simple_rule(*args)
     rules = args
     ruleset = rules.shift
     rules.each do |rule|
@@ -10,7 +10,7 @@ module Puppet::Parser::Functions
         r['ruleset'] = ruleset
         r['_embedded'] = true
         Puppet::Parser::Functions.function(:create_resources)
-        function_create_resources(['patterndb::simple::rule', { r['id'] => r }])
+        call_function('create_resources', 'patterndb::simple::rule', { r['id'] => r})
       end
     end
   end

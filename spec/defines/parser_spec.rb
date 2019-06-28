@@ -48,7 +48,7 @@ describe 'patterndb::parser', type: 'define' do
   end
   context 'with two patterndbs' do
     let :pre_condition do
-      'patterndb::parser { "stage1": }'
+      'include patterndb; patterndb::parser { "stage1": }'
     end
 
     it {
