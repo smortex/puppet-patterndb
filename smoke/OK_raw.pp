@@ -1,12 +1,12 @@
 #
 class { 'patterndb':
-  manage_package => false,
-  base_dir => '/tmp/',
-  syslogng_modules => []
+  manage_package   => false,
+  base_dir         => '/tmp/',
+  syslogng_modules => [],
 }
 
 patterndb::raw::ruleset { 'raw':
-  source => 'puppet:///modules/patterndb/tests/raw.pdb'
+  source => 'puppet:///modules/patterndb/tests/raw.pdb',
 }
 
 patterndb::raw::ruleset { 'raw.d':

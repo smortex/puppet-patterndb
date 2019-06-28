@@ -46,17 +46,17 @@ define patterndb::parser (
     command     => "cp ${::patterndb::temp_dir}/patterndb/${name}.xml ${::patterndb::base_dir}/var/lib/syslog-ng/patterndb/",
     logoutput   => true,
     path        => $::path,
-    refreshonly => true
+    refreshonly => true,
   }
   if $test_before_deploy {
-    File["patterndb::file::${name}"] ~>
-    Exec["patterndb::merge::${name}"] ~>
-    Exec["patterndb::test::${name}"] ~>
-    Exec["patterndb::deploy::${name}"]
+    File["patterndb::file::${name}"]
+    ~> Exec["patterndb::merge::${name}"]
+    ~> Exec["patterndb::test::${name}"]
+    ~> Exec["patterndb::deploy::${name}"]
     } else {
-      File["patterndb::file::${name}"] ~>
-      Exec["patterndb::merge::${name}"] ~>
+      File["patterndb::file::${name}"]
+      ~> Exec["patterndb::merge::${name}"]
       # we won't 'pdbtool test' the merged file before deploying
-      Exec["patterndb::deploy::${name}"]
+      ~> Exec["patterndb::deploy::${name}"]
     }
 }

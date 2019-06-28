@@ -1,25 +1,25 @@
 #
 class { 'patterndb':
   manage_package => false,
-  base_dir => '/tmp/'
+  base_dir       => '/tmp/',
 }
 
 patterndb::simple::ruleset { 'plop':
-  id => 'plop',
+  id       => 'plop',
   patterns => 'plop',
-  pubdate => '1970-01-01',
-  rules => [
+  pubdate  => '1970-01-01',
+  rules    => [
     {
-      id => 'plop',
+      id       => 'plop',
       patterns => [ 'hello' ],
-      values => {
-        'plop' => 'ploup'
+      values   => {
+        'plop' => 'ploup',
       },
     },{
-      id => 'plop2',
+      id       => 'plop2',
       patterns => 'hollo',
     }
-  ]
+  ],
 }
 
 patterndb::simple::ruleset { 'a':
@@ -27,19 +27,19 @@ patterndb::simple::ruleset { 'a':
   patterns => [ 'a' ],
   pubdate  => '1985-01-01',
   rules    => {
-    id => 'b',
-    patterns => ['match @ESTRING:this: @dude'],
+    id        => 'b',
+    patterns  => ['match @ESTRING:this: @dude'],
     ruleclass => 'b',
-    examples => [
+    examples  => [
       {
-        program => 'a',
+        program      => 'a',
         test_message => 'match me dude',
-        test_values => {
-          'this' => 'me'
+        test_values  => {
+          'this' => 'me',
         }
-      }
-    ]
-  }
+      },
+    ],
+  },
 }
 
 patterndb::simple::rule { 'rule-a':
@@ -49,7 +49,7 @@ patterndb::simple::rule { 'rule-a':
     {
       program      => 'a',
       test_message => 'please match me',
-    }
-  ]
+    },
+  ],
 }
 

@@ -1,13 +1,13 @@
 #
 class { 'patterndb':
   manage_package => false,
-  base_dir => '/tmp/'
+  base_dir       => '/tmp/',
 }
 
 patterndb::simple::ruleset { 'empty':
-  id => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
+  id       => 'ac5bfcf0-bfaa-4dc6-b064-e64700b50b75',
   patterns => [],
-  pubdate => '2014-03-14',
-  rules => []
+  pubdate  => '2014-03-14',
+  rules    => [],
 }
 

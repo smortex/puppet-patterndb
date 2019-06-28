@@ -49,12 +49,12 @@ define patterndb::simple::ruleset (
   concat::fragment { "patterndb_simple_ruleset-${title}-header":
     target  => "patterndb_simple_ruleset-${title}",
     content => template('patterndb/ruleset-header.erb'),
-    order   => '001'
+    order   => '001',
   }
   concat::fragment { "patterndb_simple_ruleset-${title}-footer":
     target  => "patterndb_simple_ruleset-${title}",
     content => template('patterndb/ruleset-footer.erb'),
-    order   => 'zzz'
+    order   => 'zzz',
   }
 
   if (! empty($rules)) { # monolithic ruleset definition

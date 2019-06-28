@@ -1,33 +1,33 @@
 #
 class { 'patterndb':
   manage_package => false,
-  base_dir => '/tmp/'
+  base_dir       => '/tmp/',
 }
 
 Patterndb::Simple::Rule  {
-  provider => 'blah'
+  provider => 'blah',
 }
 
 patterndb::simple::ruleset { 'a':
-  id => 'a',
+  id       => 'a',
   patterns => [ 'a' ],
-  pubdate => '1985-01-01',
-  rules => [
+  pubdate  => '1985-01-01',
+  rules    => [
     {
-      id => 'b',
-      patterns => ['match @ESTRING:this: @dude'],
+      id        => 'b',
+      patterns  => ['match @ESTRING:this: @dude'],
       ruleclass => 'b',
-      examples => [
+      examples  => [
         {
-          program => 'a',
+          program      => 'a',
           test_message => 'match me dude',
-          test_values => {
-            'this' => 'me'
+          test_values  => {
+            'this' => 'me',
           }
-        }
+        },
       ]
     }
-  ]
+  ],
 }
 
 
