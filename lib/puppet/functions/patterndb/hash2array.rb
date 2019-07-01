@@ -16,7 +16,7 @@ Puppet::Functions.create_function(:'patterndb::hash2array') do
       raise(Puppet::Error, 'hash2array(): `' + arguments[0].to_s + '` is neither a hash nor an array')
     end
 
-    return arguments
+    arguments
   end
 end
 

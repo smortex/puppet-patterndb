@@ -15,7 +15,7 @@ Puppet::Functions.create_function(:'patterndb::string2array') do
       raise(Puppet::Error, 'string2array(): `' + arguments[0].to_s + '` is neither a string nor an array') if arguments[0].is_a?(Hash)
     end
 
-    return arguments
+    arguments
   end
 end
 

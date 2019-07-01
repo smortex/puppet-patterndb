@@ -3,4 +3,3 @@ Puppet::Functions.create_function(:'riemann::puts') do
     $stdout.puts args
   end
 end
-

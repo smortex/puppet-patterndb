@@ -10,7 +10,7 @@ Puppet::Functions.create_function(:'patterndb::patterndb_simple_rule') do
         r['ruleset'] = ruleset
         r['_embedded'] = true
         Puppet::Parser::Functions.function(:create_resources)
-        call_function('create_resources', 'patterndb::simple::rule', { r['id'] => r})
+        call_function('create_resources', 'patterndb::simple::rule', r['id'] => r)
       end
     end
   end
